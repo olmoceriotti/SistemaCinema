@@ -1,0 +1,59 @@
+$primary: #ff772e;
+$secondary: #ededed;
+$accent: #ff772e;
+$background: #363636;
+$text: #fff;
+
+@mixin logoPrimary{
+    font-family: 'Kanit';
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+@mixin logoSecondary {
+    font-family: 'Kanit';
+    font-weight: 100;
+    font-size: 2rem;
+}
+
+@mixin quote {
+    font-family: 'Kanit';
+    font-weight: 100;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+@mixin paragraph {
+    font-family: 'Montserrat';
+    font-weight: 200;
+    font-size: 1rem;
+}
+
+@mixin title {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 1rem;
+}
+body{
+    margin: 0;
+}
+.container{
+    padding: 1rem 2rem 0rem;
+    margin: 0;
+}
+
+nav {
+    display:flex;
+    justify-content: space-between;
+    .nav-wrapper{
+        display: flex;
+        justify-content: space-between;
+    }
+    #logo {
+        @include logoPrimary();
+        span {
+            @include logoSecondary();
+        }
+    }
+}
+

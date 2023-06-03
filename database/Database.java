@@ -21,7 +21,7 @@ public class Database {
     private static DataInputStream dis = null;
     
     public Database(){
-        database = new ConcurrentHashMap<>(0, 0, 0);
+        database = new ConcurrentHashMap<>();
         try {
             dos = new DataOutputStream(new FileOutputStream(FILENAME, true));
             dis = new DataInputStream(new FileInputStream(FILENAME));
