@@ -1,0 +1,42 @@
+@import 'style-guide';
+
+main{
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+        @include quote();
+        margin: 0 0 2rem;
+    }
+
+    .main-buttons{
+        width: 50vw;
+        display: flex;
+        justify-content: space-between;
+        a {
+            text-align: center;
+            color: white;
+            @include button();
+            font-size: 2rem;
+            //border: solid red 2px;
+            border-radius: 15px;
+            padding: 1.5rem;
+            &:nth-child(1){
+                background-color: $primary;
+                
+            }
+            &:nth-child(2){
+              background-color: $secondary;
+              color: $background;
+            }
+            &:nth-child(1):hover{
+                box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+                -webkit-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+                -moz-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+            }
+        }
+    }   
+}

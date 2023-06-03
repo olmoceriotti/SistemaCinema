@@ -1,5 +1,18 @@
 body {
   margin: 0;
+  background-color: #363636;
+}
+
+a {
+  text-decoration: none;
+}
+
+text {
+  color: #fff;
+}
+
+a:visited {
+  color: #fff;
 }
 
 .container {
@@ -10,12 +23,33 @@ body {
 nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 nav .nav-wrapper {
+  width: 23%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: stretch;
+}
+nav .el-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+nav .el-wrapper a {
+  padding: 1.2rem 0;
+  box-sizing: border-box;
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 1rem;
+}
+nav .el-wrapper a:hover {
+  padding: 0.7rem 0;
 }
 nav #logo {
+  color: #fff;
   font-family: "Kanit";
   font-weight: 700;
   font-size: 2rem;
@@ -24,6 +58,19 @@ nav #logo span {
   font-family: "Kanit";
   font-weight: 100;
   font-size: 2rem;
+}
+nav form input {
+  background-color: #ededed;
+  padding: 0.4rem;
+  width: 15rem;
+  border-radius: 5px;
+  background-image: url(../../resources/magnifying-glass-solid.svg);
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+}
+nav form input:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /*# sourceMappingURL=general.css.map */
