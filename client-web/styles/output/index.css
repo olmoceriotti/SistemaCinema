@@ -20,7 +20,7 @@ main .main-buttons {
 }
 main .main-buttons a {
   text-align: center;
-  color: white;
+  color: #fff;
   font-family: "Montserrat";
   font-weight: 400;
   font-size: 1rem;
@@ -36,6 +36,64 @@ main .main-buttons a:nth-child(2) {
   color: #363636;
 }
 main .main-buttons a:nth-child(1):hover {
+  box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+  -webkit-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+  -moz-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+}
+main .main-buttons a:nth-child(2):hover {
+  box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+  -webkit-box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+  -moz-box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 2rem;
+}
+section h3 {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  color: #fff;
+}
+section .film-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 70%;
+}
+section .film-container .film-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 25%;
+  margin: 0 0 2rem;
+}
+section .film-container .film-card h6 {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  color: #fff;
+  font-size: 1rem;
+  margin: 0 0 1rem;
+}
+section .film-container .film-card img {
+  width: 70%;
+}
+section .film-container .film-card button {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 1rem;
+  margin: 1rem 0;
+  border-radius: 7px;
+  padding: 0.5rem 1.5rem;
+  background-color: #ff772e;
+  color: #fff;
+  border: none;
+}
+section .film-container .film-card button:hover {
   box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
   -webkit-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
   -moz-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);

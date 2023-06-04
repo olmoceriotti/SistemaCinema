@@ -42,10 +42,11 @@ nav {
             padding: 1.2rem 0;
             box-sizing: border-box;
             @include title;
+            font-size: 1rem;
         }
 
         a:hover {
-            padding: 0.7rem 0;
+            text-decoration: underline;
         }
     }
 
@@ -73,5 +74,38 @@ nav {
         }
     }
 
+}
+
+.break-line{
+    border: solid $secondary 1px;
+    width: 100%;
+    margin: 0.5rem 0 1rem;
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .footer-content{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .footer-links {
+        width: 25%;
+        display: flex;
+        justify-content: space-around;
+        a{
+            @include title();
+            font-size: 1rem;
+            color: $text;
+        }
+    }
+        .copyright {
+            color: $text;
+            @include paragraph();
+        }
 }
 
