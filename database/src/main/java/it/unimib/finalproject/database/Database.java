@@ -1,4 +1,4 @@
-package database;
+package it.unimib.finalproject.database;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;

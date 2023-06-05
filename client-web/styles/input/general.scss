@@ -43,6 +43,7 @@ nav {
             box-sizing: border-box;
             @include title;
             font-size: 1rem;
+            color: $text;
         }
 
         a:hover {
@@ -76,6 +77,9 @@ nav {
 
 }
 
+.active {
+    text-decoration: underline;
+}
 .break-line{
     border: solid $secondary 1px;
     width: 100%;

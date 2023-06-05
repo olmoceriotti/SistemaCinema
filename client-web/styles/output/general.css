@@ -45,6 +45,7 @@ nav .el-wrapper a {
   font-weight: 500;
   font-size: 3rem;
   font-size: 1rem;
+  color: #fff;
 }
 nav .el-wrapper a:hover {
   text-decoration: underline;
@@ -72,6 +73,10 @@ nav form input {
 nav form input:focus {
   outline: none;
   box-shadow: none;
+}
+
+.active {
+  text-decoration: underline;
 }
 
 .break-line {
