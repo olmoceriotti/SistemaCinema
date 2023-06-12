@@ -56,7 +56,7 @@ public class ProtocolHandler {
                 break;
         }
         if(!success){
-            System.out.println("Invalid argument passed for the state" + this.state);
+            System.out.println("Invalid argument passed for the state: " + this.state);
         }
         return success;
     }
@@ -114,7 +114,6 @@ public class ProtocolHandler {
     String getOutput(){
         if(this.state == READY){
             return output;
-            
         }else
             return null;
     }
@@ -134,6 +133,7 @@ public class ProtocolHandler {
             response.append("FAILED ");
         }
         if(command.equals("READ") || command.equals("EXISTS") || command.equals("KEY_FILTER")){
+            //control null
             response.append(getOutput() + " ");
         }
         response.append("#");

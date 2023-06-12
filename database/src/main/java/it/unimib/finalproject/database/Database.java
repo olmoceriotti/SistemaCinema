@@ -27,8 +27,8 @@ public class Database {
             System.out.println("Impossible to access Database Backup file");
 
         }
-        System.out.println("backup restored");
         restoreFromBackup();
+        System.out.println("backup restored");
         startSnapshotDaemon();
         printTable();
     }
@@ -142,7 +142,7 @@ public class Database {
         String data;
         try{
             while((data = dis.readUTF()) != null){
-                System.out.println(data);
+                //System.out.println(data);
                 String[] pair = getKeyValue(data);
                 database.put(pair[0], pair[1]);
             }

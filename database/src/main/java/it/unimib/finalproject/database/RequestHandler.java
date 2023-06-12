@@ -11,6 +11,7 @@ public class RequestHandler extends Thread {
     private ProtocolHandler protocol;
     private PrintWriter out;
     private BufferedReader in;
+
     public RequestHandler(Socket client) {
         this.client = client;
         protocol = new ProtocolHandler();
@@ -34,7 +35,7 @@ public class RequestHandler extends Thread {
                     break;
                 }
                 validator = protocol.readInput(inputLine);
-                System.out.println(validator + " " + inputLine);
+                //System.out.println(validator + " " + inputLine);
                 if(!validator){
                     System.out.println("A problem occurred on the keyword: " +  inputLine);
                     break;

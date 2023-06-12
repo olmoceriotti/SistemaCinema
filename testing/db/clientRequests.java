@@ -12,6 +12,7 @@ public class clientRequests {
         PrintWriter out = null;
         BufferedReader in = null;
         String inputLine;
+        String command = "";
         try {
             socket = new Socket("localhost", 3030);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -19,7 +20,14 @@ public class clientRequests {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String command = "KEY_FILTER ciao: ; #";
+        if (args.length != 0) {
+            for(int i = 0; i < args.length; i++){
+                command += args[i] + " ";
+            }
+            command += "#";
+        }else{
+            command = "CREATE ciao:0 / 7 ; #";
+        }
         while(command != ""){
             int end = command.indexOf(" ");
             String message = "";
