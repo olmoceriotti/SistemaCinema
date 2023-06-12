@@ -19,7 +19,7 @@ public class clientRequests {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String command = "READ ciao:2 ; #";
+        String command = "KEY_FILTER ciao: ; #";
         while(command != ""){
             int end = command.indexOf(" ");
             String message = "";
@@ -34,13 +34,13 @@ public class clientRequests {
             out.flush();
         }
 
+        System.out.println("command sent my dawg");
+
         while((inputLine = in.readLine()) != null){
             if("#".equals(inputLine)){
                 break;
             }
             System.out.println(inputLine);
         }
-
-        System.out.println("command sent my dawg");
     }
 }

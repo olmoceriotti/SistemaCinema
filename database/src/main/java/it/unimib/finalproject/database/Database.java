@@ -1,14 +1,11 @@
 package it.unimib.finalproject.database;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,17 +13,21 @@ public class Database {
     private ConcurrentHashMap<String, String> database;
     private static final String FILENAME = "database.dat";
     private static DataOutputStream dos = null;
+    private FileInputStream fis;
     private static DataInputStream dis = null;
     private static Database instance;
 
-    private Database(){
+    private Database() throws IOException{
         database = new ConcurrentHashMap<>();
         try {
-            dis = new DataInputStream(new FileInputStream(FILENAME));
+            fis = new FileInputStream(FILENAME);
+            dis = new DataInputStream(fis);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Impossible to access Database Backup file");
 
         }
+        System.out.println("backup restored");
         restoreFromBackup();
         startSnapshotDaemon();
         printTable();
@@ -85,12 +86,12 @@ public class Database {
         while(i.hasNext()){
             key = i.next();
             if(key.contains(filter)){
-                output += this.read(key) + ",";
+                output += key + ";" + this.read(key) + ",";
             }
         }
         output = output.replace("ERRORE", "");
+        output = output.substring(0, output.length() -1);
         return output;
-
     }
 
     //Backup functions
@@ -106,6 +107,9 @@ public class Database {
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
                     break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    break;
                 }
                 
             }
@@ -114,7 +118,7 @@ public class Database {
         daemonThread.start();
     }
 
-    private void saveSnapshot() throws FileNotFoundException{
+    private void saveSnapshot() throws FileNotFoundException, IOException{
         Iterator<String> iterator = database.keySet().iterator();
         dos = new DataOutputStream(new FileOutputStream(FILENAME, false));
         while(iterator.hasNext()){
@@ -131,20 +135,19 @@ public class Database {
                 }
             }
         }
+        dos.close();
     }
 
     private boolean restoreFromBackup(){
         String data;
         try{
             while((data = dis.readUTF()) != null){
+                System.out.println(data);
                 String[] pair = getKeyValue(data);
                 database.put(pair[0], pair[1]);
             }
-        } catch (EOFException e) {
-
-        }catch(IOException e){
-            System.out.println("Impossible to read from Database Backup file");
-            return false;
+        } catch (IOException e){
+           return false;
         }
         return true;
     }
@@ -164,7 +167,9 @@ public class Database {
 
     public static Database getInstance(){
         if(instance == null){
-            instance = new Database();
+            try {
+                instance = new Database();
+            } catch (Exception e) {} 
         }
         return instance;
     }

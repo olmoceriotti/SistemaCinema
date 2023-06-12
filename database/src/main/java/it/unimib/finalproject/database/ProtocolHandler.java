@@ -15,11 +15,12 @@ public class ProtocolHandler {
     private String key;
     private String value;
 
-    private Database db = Database.getInstance();
+    private Database db;
     private String output;
 
     ProtocolHandler(){
         state = START;
+        db = Database.getInstance();
     }
 
     boolean readInput(String input){
@@ -104,7 +105,7 @@ public class ProtocolHandler {
             default:
                 System.out.println("Not a valid command: find God");
                 success = false;
-                break;
+            break;
         }
 
         return success;
@@ -132,7 +133,7 @@ public class ProtocolHandler {
         }else{
             response.append("FAILED ");
         }
-        if(command.equals("READ") || command.equals("EXISTS") || command.equals("KEY_FILER")){
+        if(command.equals("READ") || command.equals("EXISTS") || command.equals("KEY_FILTER")){
             response.append(getOutput() + " ");
         }
         response.append("#");
