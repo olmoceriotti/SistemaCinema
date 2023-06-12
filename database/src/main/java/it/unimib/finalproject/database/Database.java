@@ -3,7 +3,9 @@ package it.unimib.finalproject.database;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,14 +22,14 @@ public class Database {
     private Database(){
         database = new ConcurrentHashMap<>();
         try {
-            dos = new DataOutputStream(new FileOutputStream(FILENAME, true));
             dis = new DataInputStream(new FileInputStream(FILENAME));
         } catch (Exception e) {
             System.out.println("Impossible to access Database Backup file");
 
         }
-        //restoreFromBackup();
+        restoreFromBackup();
         startSnapshotDaemon();
+        printTable();
     }
 
     //CRUD functions
@@ -65,7 +67,7 @@ public class Database {
     public boolean delete(String key){
         String value = database.remove(key);
         if(value == null){
-            System.out.println("Impossible to delete the requested  data");
+            System.out.println("Impossible to delete the requested data");
             return false;
         }
         return true;
@@ -73,7 +75,7 @@ public class Database {
 
     public boolean exists(String key){
         String value = database.get(key);
-        return value == null;
+        return value != null;
     }
 
     public String key_filter(String filter){
@@ -96,9 +98,12 @@ public class Database {
         Thread daemonThread = new Thread(() -> {
             while(true){
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                     saveSnapshot();
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    break;
+                } catch (FileNotFoundException e){
                     e.printStackTrace();
                     break;
                 }
@@ -109,9 +114,9 @@ public class Database {
         daemonThread.start();
     }
 
-    private void saveSnapshot(){
+    private void saveSnapshot() throws FileNotFoundException{
         Iterator<String> iterator = database.keySet().iterator();
-
+        dos = new DataOutputStream(new FileOutputStream(FILENAME, false));
         while(iterator.hasNext()){
             String key = iterator.next();
             StringBuilder sb = new StringBuilder();
@@ -129,13 +134,14 @@ public class Database {
     }
 
     private boolean restoreFromBackup(){
-        BufferedReader br =  new BufferedReader(new InputStreamReader(dis));
         String data;
         try{
-            while((data = br.readLine()) != null){
+            while((data = dis.readUTF()) != null){
                 String[] pair = getKeyValue(data);
-                database.put(pair[0], pair[0]);
+                database.put(pair[0], pair[1]);
             }
+        } catch (EOFException e) {
+
         }catch(IOException e){
             System.out.println("Impossible to read from Database Backup file");
             return false;
@@ -151,7 +157,7 @@ public class Database {
             return null;
         }
         String key = data.substring(0, divider);
-        String value = data.substring(divider);
+        String value = data.substring(divider + 1);
         String[] pair = {key, value};
         return pair;
     }
@@ -165,6 +171,7 @@ public class Database {
 
     void printTable(){
         int i = 0;
+        System.out.println("Table:");
         for (String key : database.keySet()) {
             String value = database.get(key);
             System.out.println(i + ": " + key + " " + value);

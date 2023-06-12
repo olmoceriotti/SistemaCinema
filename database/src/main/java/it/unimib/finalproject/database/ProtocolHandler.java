@@ -112,7 +112,6 @@ public class ProtocolHandler {
 
     String getOutput(){
         if(this.state == READY){
-            db.printTable();
             return output;
             
         }else
@@ -124,6 +123,21 @@ public class ProtocolHandler {
         this.command = null;
         this.key = null;
         this.value = null;
+    }
+
+    String responseBuilder(boolean outcome){
+        StringBuilder response = new StringBuilder();
+        if(outcome){
+            response.append("OK ");
+        }else{
+            response.append("FAILED ");
+        }
+        if(command.equals("READ") || command.equals("EXISTS") || command.equals("KEY_FILER")){
+            response.append(getOutput() + " ");
+        }
+        response.append("#");
+        return response.toString();
+
     }
 }
 
