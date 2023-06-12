@@ -10,17 +10,14 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Database
-**/
-
 public class Database {
     private ConcurrentHashMap<String, String> database;
     private static final String FILENAME = "database.dat";
     private static DataOutputStream dos = null;
     private static DataInputStream dis = null;
-    
-    public Database(){
+    private static Database instance;
+
+    private Database(){
         database = new ConcurrentHashMap<>();
         try {
             dos = new DataOutputStream(new FileOutputStream(FILENAME, true));
@@ -29,18 +26,22 @@ public class Database {
             System.out.println("Impossible to access Database Backup file");
 
         }
-        restoreFromBackup();
+        //restoreFromBackup();
         startSnapshotDaemon();
     }
 
     //CRUD functions
-    public boolean create(String data){
-        String[] pair = getKeyValue(data);
-        if(pair == null){
-            return false;
+
+    //Aggiornare per concorrenza
+    public boolean create(String key, String value){
+        try{
+            if(database.put(key, value) == null){
+                return true;
+            }
+        }catch(NullPointerException e){
+            System.out.println("CREATE: Key or Value are null");
         }
-        database.put(pair[0], pair[0]);
-        return true;
+        return false;
     }
 
     public String read(String key){
@@ -52,12 +53,8 @@ public class Database {
         return value;
     }
 
-    public boolean update(String data){
-        String[] pair = getKeyValue(data);
-        if(pair == null){
-            return false;
-        }
-        String result = database.replace(pair[0], pair[1]);
+    public boolean update(String key, String value){
+        String result = database.replace(key, value);
         if (result == null){
             System.out.println("Impossible to modify a non-existing value");
             return false;
@@ -65,13 +62,33 @@ public class Database {
         return true;
     }
 
-    public boolean remove(String key){
+    public boolean delete(String key){
         String value = database.remove(key);
         if(value == null){
             System.out.println("Impossible to delete the requested  data");
             return false;
         }
         return true;
+    }
+
+    public boolean exists(String key){
+        String value = database.get(key);
+        return value == null;
+    }
+
+    public String key_filter(String filter){
+        Iterator<String> i = database.keySet().iterator();
+        String output = "";
+        String key;
+        while(i.hasNext()){
+            key = i.next();
+            if(key.contains(filter)){
+                output += this.read(key) + ",";
+            }
+        }
+        output = output.replace("ERRORE", "");
+        return output;
+
     }
 
     //Backup functions
@@ -137,5 +154,21 @@ public class Database {
         String value = data.substring(divider);
         String[] pair = {key, value};
         return pair;
+    }
+
+    public static Database getInstance(){
+        if(instance == null){
+            instance = new Database();
+        }
+        return instance;
+    }
+
+    void printTable(){
+        int i = 0;
+        for (String key : database.keySet()) {
+            String value = database.get(key);
+            System.out.println(i + ": " + key + " " + value);
+            i++;
+        }
     }
 }
