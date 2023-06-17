@@ -43,12 +43,13 @@ public class clientRequests {
         }
 
         System.out.println("command sent my dawg");
-
+        StringBuilder sb = new StringBuilder();
         while((inputLine = in.readLine()) != null){
             if("#".equals(inputLine)){
                 break;
             }
-            System.out.println(inputLine);
+            sb.append(inputLine);
         }
+        System.out.println(sb.toString());
     }
 }

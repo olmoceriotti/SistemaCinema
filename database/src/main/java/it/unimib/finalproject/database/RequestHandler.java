@@ -31,7 +31,7 @@ public class RequestHandler extends Thread {
             //Extract method
             while ((inputLine = in.readLine()) != null) {
                 if("#".equals(inputLine)){
-                    out.println("Connection closed");
+                    System.out.println("Connection closed");
                     break;
                 }
                 validator = protocol.readInput(inputLine);
@@ -58,18 +58,7 @@ public class RequestHandler extends Thread {
     }
 
     private void sendMessage(String message){
-        while (message != "") {
-            int end = message.indexOf(" ");
-            String chunk = "";
-            if (end != -1) {
-                chunk = message.substring(0, end);
-                message = message.substring(end + 1);
-                out.print(chunk + "\n");
-                out.flush();
-            } else {
-                out.print(message + "\n");
-                message = "";
-            }
-        }
+        out.print(message);
+        out.flush();
     }
 }

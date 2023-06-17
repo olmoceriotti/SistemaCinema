@@ -86,11 +86,10 @@ public class Database {
         while(i.hasNext()){
             key = i.next();
             if(key.contains(filter)){
-                output += key + ";" + this.read(key) + ",";
+                output += key + "/" + this.read(key) + ";\n";
             }
         }
         output = output.replace("ERRORE", "");
-        output = output.substring(0, output.length() -1);
         return output;
     }
 
