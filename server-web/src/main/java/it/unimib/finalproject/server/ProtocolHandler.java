@@ -3,10 +3,8 @@ package it.unimib.finalproject.server;
 import java.io.IOException;
 
 public class ProtocolHandler {
-    private DatabaseChannel dbChan;
 
     public ProtocolHandler(){
-        dbChan = new DatabaseChannel();
     }
     
     public boolean create(String key, String value){
@@ -14,7 +12,6 @@ public class ProtocolHandler {
         command += key + "+/+" + value;
         command += "+;+#";
         String response = executeCommand(command);
-        System.out.println(response);
         if(response != null){
             if(response.contains("OK"))
                 return true;
@@ -87,6 +84,7 @@ public class ProtocolHandler {
     }
 
     private String executeCommand(String command){
+        DatabaseChannel dbChan = new DatabaseChannel();
         dbChan.sendMessage(command);
         try {
             String response = dbChan.receiveMessage();

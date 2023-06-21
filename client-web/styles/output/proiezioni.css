@@ -1,0 +1,77 @@
+h3 {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  color: #fff;
+}
+
+.prenotazione-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.prenotazione-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0 0 2rem;
+}
+.prenotazione-container:nth-child(odd) button {
+  background-color: #ff772e;
+  color: #fff;
+}
+.prenotazione-container:nth-child(even) button {
+  background-color: #ededed;
+  color: #363636;
+}
+.prenotazione-container h6 {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  font-size: 2rem;
+  color: #fff;
+  margin: 0.75rem 0;
+}
+.prenotazione-container p {
+  color: #fff;
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 1rem;
+  font-size: 2rem;
+  margin: 0.75rem 0;
+}
+.prenotazione-container button {
+  text-align: center;
+  color: #fff;
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 1rem;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  height: 4rem;
+  width: 16rem;
+  border: none;
+}
+
+.headers {
+  display: flex;
+  justify-content: flex-start;
+}
+.headers th:nth-child(1) p {
+  margin-left: 5rem;
+}
+.headers th:nth-child(2) p {
+  margin-left: 19rem;
+}
+.headers th:nth-child(3) p {
+  margin-left: 15rem;
+}
+.headers th:nth-child(4) p {
+  margin-left: 12.5rem;
+}
+.headers button {
+  visibility: hidden;
+}
+
+/*# sourceMappingURL=proiezioni.css.map */

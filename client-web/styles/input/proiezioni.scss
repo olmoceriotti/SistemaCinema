@@ -1,0 +1,82 @@
+@import 'style-guide';
+
+h3 {
+    @include title;
+    color: $text;
+}
+
+.prenotazione-grid{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+.prenotazione-container{
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0 0 2rem;
+    
+    &:nth-child(odd){
+        button {
+            background-color: $primary;
+            color: $text;
+        }
+    }
+    &:nth-child(even) {
+        button {
+            background-color: $secondary;
+            color: $background;
+        }
+    }
+    h6{
+        @include title;
+        font-size: 2rem;
+        color: $text;
+        margin: 0.75rem 0;
+    }
+
+    p{
+        color: $text;
+        @include paragraph;
+        font-size: 2rem;
+        margin: 0.75rem 0;
+    }
+    
+    button {
+        text-align: center;
+        color: $text;
+        @include button();
+        font-size: 1.5rem;
+        border-radius: 15px;
+        //margin: 1rem;
+        height: 4rem;
+        width: 16rem;
+        border: none;
+    }
+}
+
+.headers{
+    display: flex;
+    justify-content:flex-start;
+    th{
+        &:nth-child(1) p{
+            margin-left: 5rem;
+        }
+        &:nth-child(2) p {
+            margin-left: 19rem;
+        }
+        &:nth-child(3) p {
+            margin-left: 15rem;
+        }
+
+        &:nth-child(4) p {
+            margin-left: 12.5rem;
+        }
+    }
+
+    button {
+        visibility: hidden;
+    }
+}

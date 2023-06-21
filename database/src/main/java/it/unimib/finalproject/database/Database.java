@@ -16,6 +16,7 @@ public class Database {
     private FileInputStream fis;
     private static DataInputStream dis = null;
     private static Database instance;
+    private static boolean snapshots = true;
 
     private Database() throws IOException{
         database = new ConcurrentHashMap<>();
@@ -25,11 +26,10 @@ public class Database {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Impossible to access Database Backup file");
-
         }
         restoreFromBackup();
         System.out.println("backup restored");
-        startSnapshotDaemon();
+        if(snapshots) startSnapshotDaemon();
         printTable();
     }
 

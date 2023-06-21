@@ -1,3 +1,4 @@
+it/unimib/finalproject/server/PrenotazioniResources.class
 it/unimib/finalproject/server/beans/Sala.class
 it/unimib/finalproject/server/beans/Proiezione.class
 it/unimib/finalproject/server/ProtocolHandler.class
@@ -8,3 +9,4 @@ it/unimib/finalproject/server/Main.class
 it/unimib/finalproject/server/DatabaseChannel.class
 it/unimib/finalproject/server/beans/test.class
 it/unimib/finalproject/server/beans/Film.class
+it/unimib/finalproject/server/ProiezioniResources.class

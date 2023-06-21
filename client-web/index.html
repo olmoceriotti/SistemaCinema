@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,23 +7,22 @@
     <title>CINEmah</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
+    <link
+        rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,700;0,800;0,900;1,100&family=Montserrat:wght@200;300;400;500&display=swap">
     <link rel="stylesheet" href="../styles/output/general.css">
     <link rel="stylesheet" href="../styles/output/index.css">
-    <script src="../scripts/index.js" defer></script>
 </head>
-
-<body>
+<body onload="loadFilms()">
     <div class="container">
         <nav>
             <div class="nav-wrapper">
-                <div id="logo"><a href="../index.html">CINE<span>mah</span></a></div>
-                <div class="el-wrapper">
-                    <a href="prenotazioni.html" class = "active">Prenotazioni</a>
-                </div>
-                <div class="el-wrapper">
-                    <a href="proiezioni.html">Proiezioni</a>
+                <div id="logo"><a href="index.html">CINE<span>mah</span></a></div>
+                <div class = "el-wrapper">
+                    <a href="structure/prenotazioni.html">Prenotazioni</a>
+                </div>   
+                <div class = "el-wrapper">
+                    <a href="structure/proiezioni.html">Proiezioni</a>
                 </div>
             </div>
             <form action="/film" method="get" autocomplete="off">
@@ -33,11 +31,21 @@
         </nav>
         <div class="break-line"></div>
         <main>
+            <h2 class="quote">Film carini, non per forza belli</h2>
+            <div class="main-buttons">
+                <a href="structure/proiezioni.html">Prossime proiezioni</a>
+                <a href="structure/prenotazione.html">Gestisci prenotazioni</a>
+            </div>
         </main>
         <section>
+                <h3 class="banner">Film in sala</h3>
+                <div class="film-container">
+                    
+                
+                </div>
         </section>
         <div class="break-line"></div>
-        <footer>
+        <footer>      
             <div class="footer-content">
                 <div class="footer-links">
                     <a href="#">Home</a>
@@ -49,6 +57,7 @@
                 </p>
             </div>
         </footer>
+        <script src="scripts/index.js"></script>
     </div>
 </body>
 

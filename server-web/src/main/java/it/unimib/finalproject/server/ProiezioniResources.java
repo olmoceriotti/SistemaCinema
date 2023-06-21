@@ -6,6 +6,7 @@ import jakarta.ws.rs.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.type.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.*;
@@ -17,20 +18,23 @@ public class ProiezioniResources {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFilms(){
-        return null;
+    public Response getAllProiezioni(){
+        ProtocolHandler prtcl = new ProtocolHandler();
+        String s = prtcl.key_filter("proiezione:");
+        ArrayList<Proiezione> list = Proiezione.buildFromStringList(s);
+        return Response.ok(list).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addFilm(){
+    public Response aggiungiProiezione(){
         return null;
     }
 
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFilmInfo(@PathParam("id") int id){
+    public Response getProiezione(@PathParam("id") int id){
         ProtocolHandler prtcl = new ProtocolHandler();
         String proiezione = prtcl.read("proiezione:"+ id);
         Proiezione proiezioneObj = Proiezione.buildFromString(proiezione);
@@ -43,7 +47,7 @@ public class ProiezioniResources {
     @Path("/{id}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteFilm(@PathParam("id") int id){
+    public Response deleteProiezione(@PathParam("id") int id){
         ProtocolHandler prtcl = new ProtocolHandler();
         if(prtcl.delete("proiezione:" + id))
             return Response.noContent().build();

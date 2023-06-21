@@ -1,7 +1,6 @@
 package it.unimib.finalproject.server.beans;
 
 import java.io.Serializable;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,26 +22,17 @@ public class Film implements Serializable {
     @JsonProperty
     private String regista;
     @JsonProperty
-    private URI photo;
+    private String externalID;
 
     public Film(){}
 
-    public Film(String nome, int durata, String attori, String regista, URI photo){
-        this.id = UUID.randomUUID().toString();
-        this.nome = nome;
-        this.durata = durata;
-        this.attori = attori;
-        this.regista = regista;
-        this.photo = photo;
-    }
-
-    public Film(String id, String nome, int durata, String attori, String regista, URI photo){
+    public Film(String id, String nome, int durata, String attori, String regista, String extID){
         this.id = id;
         this.nome = nome;
         this.durata = durata;
         this.attori = attori;
         this.regista = regista;
-        this.photo = photo;
+        this.externalID = extID;
     }
 
     public String getId(){
@@ -50,7 +40,6 @@ public class Film implements Serializable {
     }
 
     public static List<Film> fromStringToObjects(String list){
-        ObjectMapper mapper = new ObjectMapper();
         int end;
         ArrayList<Film> objList = new ArrayList<Film>();
         while((end = list.indexOf(";")) != -1){
@@ -59,12 +48,7 @@ public class Film implements Serializable {
             int divider = obj.indexOf("/");
             System.out.println(obj.substring(0, divider));
             obj = obj.substring(divider +1);
-            try {
-                Film film = mapper.readValue(obj, Film.class);
-                objList.add(film);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            objList.add(buildFromString(obj));
         }
         return objList;
     }
