@@ -5,43 +5,53 @@ h3 {
   color: #fff;
 }
 
-.prenotazione-grid {
+.table {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
-.prenotazione-container {
+.table-row {
   display: flex;
   justify-content: space-around;
-  padding: 0;
-  margin: 0 0 2rem;
+  align-items: center;
+  margin: 0 0 1rem;
 }
-.prenotazione-container:nth-child(odd) button {
+.table-row:first-child {
+  border-bottom: 1px solid #ccc;
+}
+.table-row:nth-child(odd) button {
   background-color: #ff772e;
   color: #fff;
 }
-.prenotazione-container:nth-child(even) button {
+.table-row:nth-child(odd) button:hover {
+  box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+  -webkit-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+  -moz-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+}
+.table-row:nth-child(even) button {
   background-color: #ededed;
   color: #363636;
 }
-.prenotazione-container h6 {
-  font-family: "Montserrat";
-  font-weight: 500;
-  font-size: 3rem;
-  font-size: 2rem;
-  color: #fff;
-  margin: 0.75rem 0;
+.table-row:nth-child(even) button:hover {
+  box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+  -webkit-box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+  -moz-box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
 }
-.prenotazione-container p {
+.table-row div {
   color: #fff;
   font-family: "Montserrat";
   font-weight: 200;
   font-size: 1rem;
   font-size: 2rem;
-  margin: 0.75rem 0;
 }
-.prenotazione-container button {
+.table-row .film {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  font-size: 2rem;
+}
+.table-row button {
   text-align: center;
   color: #fff;
   font-family: "Montserrat";
@@ -49,29 +59,41 @@ h3 {
   font-size: 1rem;
   font-size: 1.5rem;
   border-radius: 15px;
-  height: 4rem;
-  width: 16rem;
   border: none;
+  width: 10rem;
+  height: 4rem;
 }
 
-.headers {
-  display: flex;
-  justify-content: flex-start;
+.film {
+  flex-basis: 25%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.headers th:nth-child(1) p {
-  margin-left: 5rem;
+
+.data {
+  flex-basis: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.headers th:nth-child(2) p {
-  margin-left: 19rem;
+
+.ora {
+  flex-basis: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.headers th:nth-child(3) p {
-  margin-left: 15rem;
+
+.posti {
+  flex-basis: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.headers th:nth-child(4) p {
-  margin-left: 12.5rem;
-}
-.headers button {
-  visibility: hidden;
+
+.bottone {
+  flex-basis: 10%;
 }
 
 /*# sourceMappingURL=proiezioni.css.map */

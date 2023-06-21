@@ -5,23 +5,31 @@ h3 {
     color: $text;
 }
 
-.prenotazione-grid{
+.table{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 
-.prenotazione-container{
+.table-row{
     display: flex;
     justify-content: space-around;
-    padding: 0;
-    margin: 0 0 2rem;
-    
+    align-items: center;
+    margin: 0 0 1rem;
+    &:first-child{
+        border-bottom: 1px solid #ccc;
+    }
     &:nth-child(odd){
         button {
             background-color: $primary;
             color: $text;
+        }
+
+        button:hover{
+            box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+            -webkit-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
+            -moz-box-shadow: 0px -11px 34px 16px rgba(255, 119, 46, 0.3);
         }
     }
     &:nth-child(even) {
@@ -29,19 +37,23 @@ h3 {
             background-color: $secondary;
             color: $background;
         }
-    }
-    h6{
-        @include title;
-        font-size: 2rem;
-        color: $text;
-        margin: 0.75rem 0;
+        
+        button:hover{
+            box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+            -webkit-box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+            -moz-box-shadow: 0px -11px 34px 16px rgba(237, 237, 237, 0.3);
+        }
     }
 
-    p{
+    div{
         color: $text;
         @include paragraph;
         font-size: 2rem;
-        margin: 0.75rem 0;
+    }
+
+    .film{
+        @include title;
+        font-size: 2rem;
     }
     
     button {
@@ -50,33 +62,40 @@ h3 {
         @include button();
         font-size: 1.5rem;
         border-radius: 15px;
-        //margin: 1rem;
-        height: 4rem;
-        width: 16rem;
         border: none;
+        width: 10rem;
+        height: 4rem;
     }
 }
 
-.headers{
-    display: flex;
-    justify-content:flex-start;
-    th{
-        &:nth-child(1) p{
-            margin-left: 5rem;
-        }
-        &:nth-child(2) p {
-            margin-left: 19rem;
-        }
-        &:nth-child(3) p {
-            margin-left: 15rem;
-        }
+.film {
+    flex-basis: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
-        &:nth-child(4) p {
-            margin-left: 12.5rem;
-        }
-    }
+.data {
+    flex-basis: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
-    button {
-        visibility: hidden;
-    }
+.ora {
+    flex-basis: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.posti {
+    flex-basis: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bottone{
+    flex-basis: 10%;
 }
