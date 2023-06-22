@@ -27,6 +27,7 @@ public class DatabaseChannel {
             if (end != -1) {
                 chunk = message.substring(0, end);
                 message = message.substring(end + 1);
+                System.out.println(chunk);
                 out.print(chunk + "\n");
             } else {
                 out.print(message + "\n");

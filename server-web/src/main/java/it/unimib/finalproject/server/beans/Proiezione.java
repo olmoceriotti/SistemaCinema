@@ -48,8 +48,18 @@ public class Proiezione {
         return true;
     }
 
+    public boolean checkPostiOccupati(List<String> posti){
+        for (String posto : posti) {
+            if (!postiPrenotati.contains(posto)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void addPostiOccupati(List<String> posti){
         this.postiPrenotati.addAll(posti);
+        this.totPostiOccupati = this.postiPrenotati.size();
     }
 
     public boolean removePostiOccupati(String posti){

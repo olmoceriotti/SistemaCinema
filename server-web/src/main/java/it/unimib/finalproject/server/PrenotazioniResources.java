@@ -3,20 +3,35 @@ package it.unimib.finalproject.server;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
+import java.util.ArrayList;
+
 import it.unimib.finalproject.server.beans.*;
 
 @Path("prenotazione")
 public class PrenotazioniResources {
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPrenotazione(){
+        ProtocolHandler prtcl = new ProtocolHandler();
+        String s = prtcl.key_filter("prenotazione:");
+        ArrayList<Prenotazione> list = Prenotazione.buildFromStringList(s);
+        return Response.ok(list).build();
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createPrenotazione(@PathParam("id") int id, String body){
         Prenotazione pre = Prenotazione.buildFromString(body);
+        pre.setId();
         ProtocolHandler prtcl = new ProtocolHandler();
-        String s  = prtcl.read("proiezione:"+pre.getProiezioneId());
+        String s = prtcl.read("proiezione:" + pre.getProiezioneID());
         Proiezione pro = Proiezione.buildFromString(s);
+        System.out.println(pro.toString());
+        System.out.println(pre.toString());
         if(pro.checkDisponibilitàPosti(pre.getPosti())){
-            prtcl.create("prenotazione:" + pre.getID(), body);
+            prtcl.create("prenotazione:" + pre.getID(), pre.toString());
             pro.addPostiOccupati(pre.getPosti());
             prtcl.update("proiezione:" + pro.getId(), pro.toString());
             return Response.ok(pre.getID()).build();
@@ -28,12 +43,12 @@ public class PrenotazioniResources {
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPrenotazione(@PathParam("id") int id){
+    public Response getPrenotazione(@PathParam("id") String id){
         ProtocolHandler prtcl = new ProtocolHandler();
         String s = prtcl.read("prenotazione:" + id);
         Prenotazione p = Prenotazione.buildFromString(s);
         if(p != null){
-            return Response.ok(s).build();
+            return Response.ok(p).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
@@ -41,20 +56,18 @@ public class PrenotazioniResources {
     @Path("/{id}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response modifyPrenotazione(@PathParam("id") int id, String body){
         //Body lista posti
         ProtocolHandler prtcl = new ProtocolHandler();
         String s = prtcl.read("prenotazione:" + id);
         Prenotazione p = Prenotazione.buildFromString(s);
-        String s1 = prtcl.read("proiezione:" + p.getProiezioneId());
+        String s1 = prtcl.read("proiezione:" + p.getProiezioneID());
         Proiezione pro = Proiezione.buildFromString(s1);
-        //TODO ADAPTER CANCELLA POSTI UNICA OPERAZIONE
-        if(p.cancellaPosti(body)){
-            if(pro.removePostiOccupati(body)){
-                prtcl.update("prenotazione:" + p.getID(), p.toString());
-                prtcl.update("proiezione:" + pro.getId(), pro.toString());
-                return Response.noContent().build();
-            }
+        if(p.cancellaPosti(body, pro)){
+            prtcl.update("prenotazione:" + p.getID(), p.toString());
+            prtcl.update("proiezione:" + pro.getId(), pro.toString());
+            return Response.noContent().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }

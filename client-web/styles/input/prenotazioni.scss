@@ -1,0 +1,26 @@
+@import 'style-guide';
+section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+h3{
+    @include title;
+    color: $text;
+}
+
+.inputform{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    input{
+        border: none;
+        border-radius: 20px;
+        color: $secondary;
+        width: 60rem;
+        height: 3.5rem;
+        margin: 0 0 2rem
+    }
+}

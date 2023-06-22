@@ -99,3 +99,82 @@ h3 {
 .bottone{
     flex-basis: 10%;
 }
+
+.prenotazione {
+    display: flex;
+    justify-content: space-between;
+
+    .left-col {
+        flex-basis: 50%;
+        p {
+            @include paragraph;
+            color: $text;
+            font-size: 1.7rem;
+        }
+        
+        button {
+            text-align: center;
+            color: $text;
+            @include button();
+            background-color: $primary;
+            font-size: 1.5rem;
+            border-radius: 15px;
+            border: none;
+            width: 12rem;
+            height: 3.5rem;
+        }
+    }
+
+    .right-col{
+        flex-basis: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        table {
+            border-spacing: 10px;
+            width: 50%;
+            border-collapse: separate;
+            td {
+                border: 1px solid $secondary;
+                padding: 0.6rem 0.4rem;
+            }
+            td:hover{
+                background-color: $primary;
+                border: 1px solid $primary;
+            }
+
+            .selected {
+                background-color: $secondary;
+            }
+
+            .occupied{
+                background-color: red;
+                border-color: red;
+                &:hover{
+                    background-color: red;
+                    border-color: red;
+                }
+            }
+        }
+    }
+}
+
+.conferma{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1{
+        @include title;
+        font-size: 4rem;
+        color: $text;
+    }
+
+    p{
+        @include paragraph;
+        font-size: 2rem;
+        color: $text;
+        margin: 0 0 6rem;
+    }
+}

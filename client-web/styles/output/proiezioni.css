@@ -96,4 +96,85 @@ h3 {
   flex-basis: 10%;
 }
 
+.prenotazione {
+  display: flex;
+  justify-content: space-between;
+}
+.prenotazione .left-col {
+  flex-basis: 50%;
+}
+.prenotazione .left-col p {
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 1rem;
+  color: #fff;
+  font-size: 1.7rem;
+}
+.prenotazione .left-col button {
+  text-align: center;
+  color: #fff;
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 1rem;
+  background-color: #ff772e;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  border: none;
+  width: 12rem;
+  height: 3.5rem;
+}
+.prenotazione .right-col {
+  flex-basis: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.prenotazione .right-col table {
+  border-spacing: 10px;
+  width: 50%;
+  border-collapse: separate;
+}
+.prenotazione .right-col table td {
+  border: 1px solid #ededed;
+  padding: 0.6rem 0.4rem;
+}
+.prenotazione .right-col table td:hover {
+  background-color: #ff772e;
+  border: 1px solid #ff772e;
+}
+.prenotazione .right-col table .selected {
+  background-color: #ededed;
+}
+.prenotazione .right-col table .occupied {
+  background-color: red;
+  border-color: red;
+}
+.prenotazione .right-col table .occupied:hover {
+  background-color: red;
+  border-color: red;
+}
+
+.conferma {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.conferma h1 {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  font-size: 4rem;
+  color: #fff;
+}
+.conferma p {
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 1rem;
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 0 6rem;
+}
+
 /*# sourceMappingURL=proiezioni.css.map */
