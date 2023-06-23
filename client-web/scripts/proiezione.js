@@ -244,11 +244,36 @@ function inviaConfermaPrenotazione(json){
     conferma.appendChild(titolo);
 
     const id = document.createElement("p");
+    id.classList.add("id");
     id.textContent = "L'ID della tua prenotazione è " + json;
     conferma.appendChild(id);
+
+    const button = document.createElement("button");
+    button.addEventListener("click", () =>{
+        copiatesto();
+    } );
+    button.textContent = "Copia ID";
+    button.classList.add("copia");
+    conferma.appendChild(button);
+
+    const button1 = document.createElement("button");
+    button1.addEventListener("click",  salvaQR);
+    button1.textContent = "Salva QR CODE";
+    button1.classList.add("copia");
+    conferma.appendChild(button);
 
     const qr = document.createElement("img");
     qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + json;
     conferma.appendChild(qr);
     section.appendChild(conferma);
 }
+
+function copiatesto() {
+    console.log("ciao");
+    let copyText = document.querySelector(".id");
+    let testo = copyText.textContent.replace("L'ID della tua prenotazione è ", "");
+    navigator.clipboard.writeText(testo);
+    alert("Codice copiato negli appunti");
+}
+
+function salvaQR(){}

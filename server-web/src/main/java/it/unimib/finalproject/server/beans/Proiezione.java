@@ -73,11 +73,25 @@ public class Proiezione {
                     return false;
                 }
             }
+            this.totPostiOccupati = this.postiPrenotati.size();
             return true;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean removePostiOccupati(List<String> listaPosti){
+        for (String posto : listaPosti) {
+            if(this.postiPrenotati.contains(posto)){
+                this.postiPrenotati.remove(posto);
+            }else{
+                return false;
+            }
+        }
+        this.totPostiOccupati = this.postiPrenotati.size();
+        return true;
+        
     }
 
     public static ArrayList<Proiezione> buildFromStringList(String list){

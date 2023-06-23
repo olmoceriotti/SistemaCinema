@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Database {
     private ConcurrentHashMap<String, String> database;
+    
     private static final String FILENAME = "database.dat";
     private static DataOutputStream dos = null;
     private FileInputStream fis;

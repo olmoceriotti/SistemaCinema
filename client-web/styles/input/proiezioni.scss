@@ -177,4 +177,25 @@ h3 {
         color: $text;
         margin: 0 0 6rem;
     }
+
+        button {
+            font-size: 1.5rem;
+            border-radius: 15px;
+            border: none;
+            width: 12rem;
+            height: 3.5rem;
+            @include button();
+            text-align: center;
+            margin: 2rem 3rem;
+    
+            &:first-child {
+                color: $text;
+                background-color: $primary;
+            }
+    
+            &:last-child {
+                color: $background;
+                background-color: $secondary;
+            }
+        }
 }

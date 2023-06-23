@@ -57,8 +57,7 @@ public class PrenotazioniResources {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response modifyPrenotazione(@PathParam("id") int id, String body){
-        //Body lista posti
+    public Response modifyPrenotazione(@PathParam("id") String id, String body){
         ProtocolHandler prtcl = new ProtocolHandler();
         String s = prtcl.read("prenotazione:" + id);
         Prenotazione p = Prenotazione.buildFromString(s);
@@ -67,7 +66,7 @@ public class PrenotazioniResources {
         if(p.cancellaPosti(body, pro)){
             prtcl.update("prenotazione:" + p.getID(), p.toString());
             prtcl.update("proiezione:" + pro.getId(), pro.toString());
-            return Response.noContent().build();
+            return Response.ok(p.getID()).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -75,10 +74,19 @@ public class PrenotazioniResources {
     @Path("/{id}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePrenotazione(@PathParam("id") int id){
+    public Response deletePrenotazione(@PathParam("id") String id){
         ProtocolHandler prtcl = new ProtocolHandler();
-        if(prtcl.delete("prenotazione:" + id))
-            return Response.noContent().build();
+        String p = prtcl.read("prenotazione:" + id);
+        Prenotazione pre = Prenotazione.buildFromString(p);
+        p = prtcl.read("proiezione:" + pre.getProiezioneID());
+        Proiezione pro  = Proiezione.buildFromString(p);
+        if(pro.removePostiOccupati(pre.getPosti())){
+            if(prtcl.delete("prenotazione:" + id)){
+                prtcl.update("proiezione:" + pro.getId(), pro.toString());
+                return Response.noContent().build();
+            }
+            
+        };
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 }

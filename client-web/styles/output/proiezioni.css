@@ -176,5 +176,25 @@ h3 {
   color: #fff;
   margin: 0 0 6rem;
 }
+.conferma button {
+  font-size: 1.5rem;
+  border-radius: 15px;
+  border: none;
+  width: 12rem;
+  height: 3.5rem;
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 1rem;
+  text-align: center;
+  margin: 2rem 3rem;
+}
+.conferma button:first-child {
+  color: #fff;
+  background-color: #ff772e;
+}
+.conferma button:last-child {
+  color: #363636;
+  background-color: #ededed;
+}
 
 /*# sourceMappingURL=proiezioni.css.map */

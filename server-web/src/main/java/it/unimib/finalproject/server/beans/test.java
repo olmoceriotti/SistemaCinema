@@ -17,18 +17,16 @@ public class test {
     private static ObjectMapper mapper = new ObjectMapper();
     public static void main(String[] args) throws JsonProcessingException, URISyntaxException {
         //populateFilms();
-        populateProiezione();
-        /*ArrayList<String> posti = new ArrayList<>();
+        //populateProiezione();
+        ArrayList<String> posti = new ArrayList<>();
         posti.add("B0");
         posti.add("B1");
         posti.add("B2");
-        Prenotazione pre = new Prenotazione("1", posti);
-        pre.setId();
-        String s = pre.toString();
-        System.out.println(s);
-        ProtocolHandler prtcl = new ProtocolHandler();
-        System.out.println(prtcl.create("prenotazione:" + pre.getID(), s));
-        System.out.println(pre.getID());*/
+        System.out.println(mapper.writeValueAsString(posti));
+        String b = "[\"B0\",\"B1\",\"B2\"]";
+        ArrayList<String> b1 = mapper.readValue(b, ArrayList.class);
+        System.out.println(b1.get(0));
+        
     }
 
     private static void populateFilms() throws JsonProcessingException, URISyntaxException{
