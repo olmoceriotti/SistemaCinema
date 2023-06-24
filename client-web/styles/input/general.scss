@@ -113,3 +113,43 @@ footer{
         }
 }
 
+.dialog {
+    background-color: $background;
+    border: 1px solid $secondary;
+    display: flex;
+    flex-direction: column;
+    p {
+        @include paragraph;
+        color: $text;
+        font-size: 1.7rem;
+    }
+    div {
+        display: flex;
+        justify-content: center;
+    }
+
+    button {
+        text-align: center;
+        @include button();
+        font-size: 1.5rem;
+        border-radius: 15px;
+        border: none;
+        width: 12rem;
+        height: 3.5rem;
+        margin: 0 2rem;
+        color: $text;
+        background-color: $primary;
+
+        &:last-child {
+            color: $background;
+            background-color: $secondary;
+        }
+    }
+
+    
+}
+
+.shadow {
+    filter: blur(5px);
+}
+

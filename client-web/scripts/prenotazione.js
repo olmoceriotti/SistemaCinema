@@ -187,7 +187,10 @@ async function modificaPrenotazione(prenotazione){
     const listaPosti = document.querySelector(".listaPosti");
     if(listaPosti != "Nessun posto selezionato" ){
         const postiRimanenti = listaPosti.textContent.replace("Posti selezionati: ", "").split(", ");
-        const posti = prenotazione.posti.filter((element) => !postiRimanenti.includes(element));
+        if(postiRimanenti == "Nessun posto selezionato"){
+            cancellaPrenotazione(prenotazione);
+        }else{
+            const posti = prenotazione.posti.filter((element) => !postiRimanenti.includes(element));
         
         options = {
             method: "PUT",
@@ -199,16 +202,19 @@ async function modificaPrenotazione(prenotazione){
 
        await fetch("http://localhost:8080/prenotazione/" + prenotazione.id, options);
        fetchData(prenotazione.id);
+        }   
     }
-
 }
 
 async function cancellaPrenotazione(prenotazione){
     const finestra = document.createElement("dialog");
+    finestra.classList.add("dialog");
 
     const text = document.createElement("p");
     text.textContent = "Cancellare la prenotazione?";
     finestra.appendChild(text);
+
+    const div = document.createElement("div");
 
     const buttonSi = document.createElement("button");
     buttonSi.textContent = "Conferma";
@@ -218,27 +224,38 @@ async function cancellaPrenotazione(prenotazione){
         }
         fetch("http://localhost:8080/prenotazione/" + prenotazione.id, options);
         finestra.close();
-
+        body.classList.remove("shadow");
+        body.removeChild(dialog);
         const section = document.querySelector("section");
         section.innerHTML = null;
+        section.classList.add("inputform");
 
         const h3 = document.createElement("h3");
         h3.textContent = "Prenotazione cancellata con successo!"
         section.appendChild(h3);
 
+        const a = document.createElement("a");
+        a.href = "../index.html"
         const button = document.createElement("button");
         button.textContent = "Ok";
-        section.appendChild(button);
+        a.appendChild(button);
+        section.appendChild(a);
     });
-    finestra.appendChild(buttonSi);
+    div.appendChild(buttonSi);
 
     const buttonNo = document.createElement("button");
     buttonNo.textContent = "Annulla";
     buttonNo.addEventListener("click", () =>{
         finestra.close();
+        body.classList.remove("shadow");
+        body.removeChild(dialog);
     });
-    finestra.appendChild(buttonNo);
+    div.appendChild(buttonNo);
+
+    finestra.appendChild(div);
+
     const body =document.querySelector("body");
     body.appendChild(finestra);
     finestra.showModal();
+    body.classList.add("shadow");
 }

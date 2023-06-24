@@ -42,12 +42,12 @@ h3{
         text-align: center;
         margin: 2rem 3rem;
         &:first-child{
-            color: $text;
-            background-color: $primary;
-        }
-        &:last-child {
             color: $background;
             background-color: $secondary;
+        }
+        &:last-child {
+            color: $text;
+            background-color: $primary;
         }
     }
 }
@@ -127,3 +127,4 @@ h3{
         }
     }
 }
+

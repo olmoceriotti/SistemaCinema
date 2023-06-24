@@ -44,12 +44,12 @@ h3 {
   margin: 2rem 3rem;
 }
 .inputform button:first-child {
-  color: #fff;
-  background-color: #ff772e;
-}
-.inputform button:last-child {
   color: #363636;
   background-color: #ededed;
+}
+.inputform button:last-child {
+  color: #fff;
+  background-color: #ff772e;
 }
 
 .prenotazione {

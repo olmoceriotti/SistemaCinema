@@ -145,10 +145,8 @@ function creaTabellaPosti(posti){
                             aggiungiPosto(td);
                             td.classList.add("selected");
                         }else{
-                            //TODO rimuovere sto schifo
-                            alert("Massimo posti raggiunto!");
-                        }
-                        
+                            showAvviso("Non è possibile selezionare più di 5 posti!");
+                        }              
                     }
                 });
             }
@@ -229,7 +227,6 @@ async function onSubmit(id){
         const json = await response.json();
         inviaConfermaPrenotazione(json);
     }
-
 }
 
 function inviaConfermaPrenotazione(json){
@@ -248,32 +245,82 @@ function inviaConfermaPrenotazione(json){
     id.textContent = "L'ID della tua prenotazione è " + json;
     conferma.appendChild(id);
 
+    const qr = document.createElement("img");
+    const qrPath = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + json;
+    qr.src = qrPath;
+    conferma.appendChild(qr);
+
+    const div = document.createElement("div");
+
     const button = document.createElement("button");
     button.addEventListener("click", () =>{
-        copiatesto();
+        copiatesto(json);
     } );
     button.textContent = "Copia ID";
     button.classList.add("copia");
-    conferma.appendChild(button);
+    div.appendChild(button);
 
     const button1 = document.createElement("button");
     button1.addEventListener("click",  salvaQR);
     button1.textContent = "Salva QR CODE";
+    button1.addEventListener("click", () => {
+        salvaQR(json);
+    })
     button1.classList.add("copia");
-    conferma.appendChild(button);
+    div.appendChild(button1);
 
-    const qr = document.createElement("img");
-    qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + json;
-    conferma.appendChild(qr);
+    conferma.appendChild(div);
+    
     section.appendChild(conferma);
 }
 
-function copiatesto() {
-    console.log("ciao");
-    let copyText = document.querySelector(".id");
-    let testo = copyText.textContent.replace("L'ID della tua prenotazione è ", "");
-    navigator.clipboard.writeText(testo);
-    alert("Codice copiato negli appunti");
+function copiatesto(json) {
+  navigator.clipboard.writeText(json)
+    .then(function() {
+      showAvviso("Testo copiato correttamente!")
+    })
 }
 
-function salvaQR(){}
+function showAvviso(text){
+    const body = document.querySelector("body");
+    const dialog = document.createElement("dialog");
+
+    const p = document.createElement("p");
+    p.textContent = text;
+    dialog.appendChild(p);
+
+    const div = document.createElement("div");
+
+    const button = document.createElement("button");
+    button.textContent = "Ok";
+    button.addEventListener("click", () =>{
+        dialog.close();
+        body.classList.remove("shadow");
+        body.removeChild(dialog);
+    });
+    div.appendChild(button);
+    dialog.appendChild(div);
+
+    dialog.classList.add("dialog");
+    body.appendChild(dialog);
+    
+    body.classList.add("shadow");
+
+    dialog.showModal();
+}
+
+function salvaQR(json){
+    var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="  + json;
+
+    fetch(qrCodeUrl)
+    .then(response => response.blob())
+    .then(blob => {
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Prenotazione_ ' + json + '.png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+}

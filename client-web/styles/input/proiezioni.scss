@@ -175,7 +175,7 @@ h3 {
         @include paragraph;
         font-size: 2rem;
         color: $text;
-        margin: 0 0 6rem;
+        margin: 0 0 2rem;
     }
 
         button {
@@ -186,7 +186,7 @@ h3 {
             height: 3.5rem;
             @include button();
             text-align: center;
-            margin: 2rem 3rem;
+            margin: 2rem 2rem;
     
             &:first-child {
                 color: $text;

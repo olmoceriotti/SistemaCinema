@@ -116,4 +116,44 @@ footer .copyright {
   font-size: 1rem;
 }
 
+.dialog {
+  background-color: #363636;
+  border: 1px solid #ededed;
+  display: flex;
+  flex-direction: column;
+}
+.dialog p {
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 1rem;
+  color: #fff;
+  font-size: 1.7rem;
+}
+.dialog div {
+  display: flex;
+  justify-content: center;
+}
+.dialog button {
+  text-align: center;
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 1rem;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  border: none;
+  width: 12rem;
+  height: 3.5rem;
+  margin: 0 2rem;
+  color: #fff;
+  background-color: #ff772e;
+}
+.dialog button:last-child {
+  color: #363636;
+  background-color: #ededed;
+}
+
+.shadow {
+  filter: blur(5px);
+}
+
 /*# sourceMappingURL=general.css.map */

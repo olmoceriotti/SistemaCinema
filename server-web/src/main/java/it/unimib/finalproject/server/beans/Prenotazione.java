@@ -73,6 +73,7 @@ public class Prenotazione {
                     }
                 }
                 pro.removePostiOccupati(posti);
+                this.numeroPosti = this.posti.size();
                 return true;
             }else{
                 return false;
