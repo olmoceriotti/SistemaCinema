@@ -261,7 +261,6 @@ function inviaConfermaPrenotazione(json){
     div.appendChild(button);
 
     const button1 = document.createElement("button");
-    button1.addEventListener("click",  salvaQR);
     button1.textContent = "Salva QR CODE";
     button1.addEventListener("click", () => {
         salvaQR(json);

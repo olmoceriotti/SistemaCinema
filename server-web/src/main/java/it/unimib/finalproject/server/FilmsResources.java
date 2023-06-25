@@ -3,12 +3,8 @@ package it.unimib.finalproject.server;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.type.*;
-
 import java.util.List;
-
-import com.fasterxml.jackson.core.*;
+import java.util.UUID;
 
 import it.unimib.finalproject.server.beans.*;
 
@@ -22,13 +18,6 @@ public class FilmsResources {
         String films = prtcl.key_filter("film:");
         List<Film> list = Film.fromStringToObjects(films);
         return Response.ok(list).build();
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addFilm(){
-        //parse body data e (CREATE "film:UUIDv4" "json body")
-        return null;
     }
 
     @Path("/{id}")
@@ -48,8 +37,9 @@ public class FilmsResources {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteFilm(@PathParam("id") int id){
+        String token = UUID.randomUUID().toString();
         ProtocolHandler prtcl = new ProtocolHandler();
-        if(prtcl.delete("film:" + id))
+        if(prtcl.delete(token, "film:" + id))
             return Response.noContent().build();
         return Response.status(Response.Status.NOT_FOUND).build();
     }

@@ -5,21 +5,30 @@ mainButton.addEventListener("click", getPrenotazione);
 async function getPrenotazione(){
     const input = document.querySelector(".input");
     id = input.value;
-    fetchData(id);
-    
+    fetchData(id); 
 }
 
 async function fetchData(id){
     const options = {
         method: "GET"
     }
-    const responsePrenotazione = await fetch("http://localhost:8080/prenotazione/"  + id, options);
-    const resObjPrenotazione = await responsePrenotazione.json();
-    const responseProiezione = await fetch("http://localhost:8080/proiezione/" + resObjPrenotazione.proiezioneID);
-    const resObjProiezione = await responseProiezione.json();
-    const responseFilm = await fetch("http://localhost:8080/film/" + resObjProiezione["film id"]);
-    const resObjFilm = await responseFilm.json();
-    displayPrenotazione(resObjPrenotazione, resObjProiezione, resObjFilm);
+    try{
+        const responsePrenotazione = await fetch("http://localhost:8080/prenotazione/"  + id, options);
+        if(responsePrenotazione.ok){
+            const resObjPrenotazione = await responsePrenotazione.json();
+            const responseProiezione = await fetch("http://localhost:8080/proiezione/" + resObjPrenotazione.proiezioneID);
+            const resObjProiezione = await responseProiezione.json();
+            const responseFilm = await fetch("http://localhost:8080/film/" + resObjProiezione["film id"]);
+            const resObjFilm = await responseFilm.json();
+            displayPrenotazione(resObjPrenotazione, resObjProiezione, resObjFilm);
+        }else{
+            throw new Error('Fetch failed with status: ' + response.status);
+        }
+    }catch(error){
+        showAvviso("Codice non valido!");
+    }
+    
+    
 }
 
 function displayPrenotazione(prenotazione, proiezione, film){
@@ -225,7 +234,7 @@ async function cancellaPrenotazione(prenotazione){
         fetch("http://localhost:8080/prenotazione/" + prenotazione.id, options);
         finestra.close();
         body.classList.remove("shadow");
-        body.removeChild(dialog);
+        body.removeChild(finestra);
         const section = document.querySelector("section");
         section.innerHTML = null;
         section.classList.add("inputform");
@@ -248,7 +257,7 @@ async function cancellaPrenotazione(prenotazione){
     buttonNo.addEventListener("click", () =>{
         finestra.close();
         body.classList.remove("shadow");
-        body.removeChild(dialog);
+        body.removeChild(finestra);
     });
     div.appendChild(buttonNo);
 
@@ -258,4 +267,33 @@ async function cancellaPrenotazione(prenotazione){
     body.appendChild(finestra);
     finestra.showModal();
     body.classList.add("shadow");
+}
+
+function showAvviso(text){
+    const body = document.querySelector("body");
+    const dialog = document.createElement("dialog");
+
+    const p = document.createElement("p");
+    p.textContent = text;
+    dialog.appendChild(p);
+
+    const div = document.createElement("div");
+
+    const button = document.createElement("button");
+    button.textContent = "Ok";
+    button.addEventListener("click", () =>{
+        dialog.close();
+        body.classList.remove("shadow");
+        body.removeChild(dialog);
+    });
+
+    div.appendChild(button);
+    dialog.appendChild(div);
+
+    dialog.classList.add("dialog");
+    body.appendChild(dialog);
+    
+    body.classList.add("shadow");
+
+    dialog.showModal();
 }

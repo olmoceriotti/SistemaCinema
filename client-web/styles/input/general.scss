@@ -153,3 +153,69 @@ footer{
     filter: blur(5px);
 }
 
+.infoPage {
+    padding: 2rem;
+    background-color: $background;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 40rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    .leftCol {
+
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        color: $text;
+        @include paragraph;
+        margin: 0 3rem 0 0;
+
+        p {
+            font-size: 1.3rem;
+        }
+        h3 {
+            /* Modify or replace with your desired title styles */
+            font-size: 1.5rem;
+            color: $text;
+            @include title;
+            margin: 0 0 1rem;
+        }
+
+        button {
+            text-align: center;
+            @include button();
+            font-size: 1.5rem;
+            border-radius: 15px;
+            border: none;
+            width: 8rem;
+            height: 3rem;
+            margin: 2rem;
+            color: $text;
+            background-color: $primary;
+
+            &:last-child {
+                color: $background;
+                background-color: $secondary;
+            }
+        }
+    }
+
+    .rightCol {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    /* Resize images in the right column */
+    .rightCol img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+

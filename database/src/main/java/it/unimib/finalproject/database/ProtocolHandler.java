@@ -11,6 +11,7 @@ public class ProtocolHandler {
 
     private int state;
 
+    private String owner = null;
     private String command;
     private String key;
     private String value;
@@ -63,14 +64,16 @@ public class ProtocolHandler {
 
     private boolean commandReader(String input){
         if (input.equals("READ") || input.equals("DELETE") || input.equals("EXISTS") || input
-                .equals("KEY_FILTER")) {
+                .equals("KEY_FILTER") || input.equals("LOCK") || input.equals("UNLOCK")) {
             state = KEY;
             return true;
         } else if (input.equals("CREATE") || input.equals("UPDATE")) {
             state = KEY_VALUE;
             return true;
+        }else{
+            owner = input;
+            return true;
         }
-        return false;
     }
 
     boolean execute(){
@@ -89,10 +92,10 @@ public class ProtocolHandler {
                 if(output != "ERRORE") success = true;
             break;
             case "UPDATE":
-                success = db.update(key, value);
+                success = db.update(owner, key, value);
             break;
             case "DELETE":
-                success = db.delete(key);
+                success = db.delete(owner, key);
             break;
             case "EXISTS":
                 output = db.exists(key) ? "True" : "False";
@@ -101,6 +104,12 @@ public class ProtocolHandler {
             case "KEY_FILTER":
                 output = db.key_filter(key);
                 success = true;
+            break;
+            case "LOCK":
+                success = db.lock(owner, key);
+            break;
+            case "UNLOCK":
+                success = db.unlock(owner, key);
             break;
             default:
                 System.out.println("Not a valid command: find God");
@@ -119,6 +128,7 @@ public class ProtocolHandler {
     }
 
     void reset(){
+        this.owner = null;
         this.state = START;
         this.command = null;
         this.key = null;

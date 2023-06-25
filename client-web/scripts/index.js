@@ -23,19 +23,25 @@ async function createFilmCard(film) {
   filmCard.appendChild(h6);
 
   const img = document.createElement("img");
-  const url = await getPhotoPath(film.externalID);
-  img.src = "https://image.tmdb.org/t/p/original/" + url;
+  
+  const externalInfo =  await getExternalInfo(film.externalID);
+  console.log(externalInfo);
+  const url = "https://image.tmdb.org/t/p/original/" + externalInfo.poster_path;
+  img.src = url;
   filmCard.appendChild(img);
 
   const button = document.createElement("button");
   button.textContent = "More info";
+  button.addEventListener("click", () =>{
+    generaPaginaInfo(film, externalInfo);
+  });
   button.classList.add("more-info");
   filmCard.appendChild(button);
 
   return filmCard;
 }
 
-async function getPhotoPath(id){
+async function getExternalInfo(id){
     const options = {
         method: 'GET',
         headers: {
@@ -45,7 +51,7 @@ async function getPhotoPath(id){
     };
     let response = await fetch('https://api.themoviedb.org/3/movie/'+ id +'?language=en-US', options);
     response = await response.json();
-    return response.poster_path;
+    return response;
 }
 
 function createErrorMessage(){

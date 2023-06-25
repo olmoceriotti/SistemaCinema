@@ -6,21 +6,27 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set;
+import java.util.UUID;
 
 public class Database {
-    private ConcurrentHashMap<String, String> database;
+    private HashMap<String, String> database;
+    private HashMap<String, Set<String>> lockedKeys;
     
     private static final String FILENAME = "database.dat";
     private static DataOutputStream dos = null;
     private FileInputStream fis;
     private static DataInputStream dis = null;
     private static Database instance;
+
     private static boolean snapshots = true;
 
     private Database() throws IOException{
-        database = new ConcurrentHashMap<>();
+        database = new HashMap<>();
+        lockedKeys = new HashMap<String, Set<String>>();
         try {
             fis = new FileInputStream(FILENAME);
             dis = new DataInputStream(fis);
@@ -31,15 +37,13 @@ public class Database {
         restoreFromBackup();
         System.out.println("backup restored");
         if(snapshots) startSnapshotDaemon();
-        printTable();
     }
 
     //CRUD functions
-
-    //Aggiornare per concorrenza
-    public boolean create(String key, String value){
+    public synchronized boolean create(String key, String value){
         try{
-            if(database.put(key, value) == null){
+            if(database.get(key) == null){
+                database.put(key, value);
                 return true;
             }
         }catch(NullPointerException e){
@@ -57,22 +61,47 @@ public class Database {
         return value;
     }
 
-    public boolean update(String key, String value){
-        String result = database.replace(key, value);
-        if (result == null){
-            System.out.println("Impossible to modify a non-existing value");
-            return false;
+    public boolean update(String owner, String key, String value){
+        boolean isImplicitLock = false;
+        if(!isLocked(key)){
+            if(owner == null){
+                owner = UUID.randomUUID().toString();
+            }
+            isImplicitLock = true;
+            lock(owner, key);
         }
-        return true;
+        if(lockedKeys.keySet().contains(owner)  && lockedKeys.get(owner).contains(key)){
+            String result = database.replace(key, value);
+            if (result == null){
+                System.out.println("Impossible to modify a non-existing value");
+                return false;
+            }
+            if(isImplicitLock) unlock(owner, key);
+            return true; 
+        }
+        return false;  
     }
 
-    public boolean delete(String key){
-        String value = database.remove(key);
-        if(value == null){
-            System.out.println("Impossible to delete the requested data");
-            return false;
+    public boolean delete(String owner, String key){
+        boolean isImplicitLock = false;
+        if(!isLocked(key)){
+            if(owner == null){
+                owner = UUID.randomUUID().toString();
+            }
+            isImplicitLock = true;
+            lock(owner, key);
         }
-        return true;
+        if(lockedKeys.keySet().contains(owner) && lockedKeys.get(owner).contains(key)){
+            String value = database.remove(key);
+            if(value == null){
+                System.out.println("Impossible to delete the requested data");
+                return false;
+            }
+            if(isImplicitLock) unlock(owner, key);
+            return true;
+        }else{
+            return false;
+        }  
     }
 
     public boolean exists(String key){
@@ -94,13 +123,47 @@ public class Database {
         return output;
     }
 
+    public synchronized boolean lock(String owner, String keys){
+        if(owner == null || keys == null) return false;
+        String[] list = keys.split("--");
+        for(String key : list){
+            if(isLocked(key)){
+                return false;
+            }
+        }
+        if(lockedKeys.get(owner) == null){
+            lockedKeys.put(owner, new HashSet<>());
+        }
+        for(String key : list){
+            lockedKeys.get(owner).add(key);
+        }
+        return true;
+    }
+
+    public synchronized boolean unlock(String owner, String keys){
+        if(owner == null || keys == null) return false;
+        String[] list = keys.split("-");
+        for(String key : list){
+            if(!lockedKeys.get(owner).contains(key)){
+                return false;
+            }
+
+        }
+        for(String key : list){
+            lockedKeys.get(owner).remove(key);
+        }
+        return true;
+    }
+
     //Backup functions
     private void startSnapshotDaemon(){
         Thread daemonThread = new Thread(() -> {
             while(true){
                 try {
                     Thread.sleep(2000);
-                    saveSnapshot();
+                    if(lockedKeys.isEmpty()){
+                        saveSnapshot();
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -153,6 +216,17 @@ public class Database {
     }
     
     //Utilities
+
+    private boolean isLocked(String key){
+        for(String o : lockedKeys.keySet()){
+            if(lockedKeys.get(o).contains(key)){
+                System.out.println("The key is locked");
+                return true;
+            }
+        }
+        return false;
+    }
+
     private String[] getKeyValue(String data){
         int divider = data.indexOf(";");
         if (divider == -1) {

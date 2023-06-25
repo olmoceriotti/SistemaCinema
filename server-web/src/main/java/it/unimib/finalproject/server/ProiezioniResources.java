@@ -3,13 +3,10 @@ package it.unimib.finalproject.server;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.type.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-import com.fasterxml.jackson.core.*;
 
 import it.unimib.finalproject.server.beans.*;
 
@@ -23,12 +20,6 @@ public class ProiezioniResources {
         String s = prtcl.key_filter("proiezione:");
         ArrayList<Proiezione> list = Proiezione.buildFromStringList(s);
         return Response.ok(list).build();
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response aggiungiProiezione(){
-        return null;
     }
 
     @Path("/{id}")
@@ -48,8 +39,9 @@ public class ProiezioniResources {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProiezione(@PathParam("id") int id){
+        String token = UUID.randomUUID().toString();
         ProtocolHandler prtcl = new ProtocolHandler();
-        if(prtcl.delete("proiezione:" + id))
+        if(prtcl.delete(token, "proiezione:" + id))
             return Response.noContent().build();
         return Response.status(Response.Status.NOT_FOUND).build();
     }

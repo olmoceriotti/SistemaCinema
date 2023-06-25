@@ -156,4 +156,68 @@ footer .copyright {
   filter: blur(5px);
 }
 
+.infoPage {
+  padding: 2rem;
+  background-color: #363636;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* Resize images in the right column */
+}
+.infoPage .leftCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: #fff;
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 1rem;
+  margin: 0 3rem 0 0;
+}
+.infoPage .leftCol p {
+  font-size: 1.3rem;
+}
+.infoPage .leftCol h3 {
+  /* Modify or replace with your desired title styles */
+  font-size: 1.5rem;
+  color: #fff;
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  margin: 0 0 1rem;
+}
+.infoPage .leftCol button {
+  text-align: center;
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 1rem;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  border: none;
+  width: 8rem;
+  height: 3rem;
+  margin: 2rem;
+  color: #fff;
+  background-color: #ff772e;
+}
+.infoPage .leftCol button:last-child {
+  color: #363636;
+  background-color: #ededed;
+}
+.infoPage .rightCol {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.infoPage .rightCol img {
+  max-width: 100%;
+  height: auto;
+}
+
 /*# sourceMappingURL=general.css.map */
