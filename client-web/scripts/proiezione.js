@@ -223,9 +223,14 @@ async function onSubmit(id){
     }
 
     if(data.numeroPosti != "0"){
-        const response = await fetch("http://localhost:8080/prenotazione/", options);
-        const json = await response.json();
-        inviaConfermaPrenotazione(json);
+        try{
+            const response = await fetch("http://localhost:8080/prenotazione/", options);
+            const json = await response.json();
+            inviaConfermaPrenotazione(json);
+        }catch(error){
+            showAvviso("Qualcosa è andato storto!")
+        }
+        
     }
 }
 

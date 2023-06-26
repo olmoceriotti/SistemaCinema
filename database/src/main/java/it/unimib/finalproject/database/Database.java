@@ -161,9 +161,7 @@ public class Database {
             while(true){
                 try {
                     Thread.sleep(2000);
-                    if(lockedKeys.isEmpty()){
-                        saveSnapshot();
-                    }
+                    saveSnapshot();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;

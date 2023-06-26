@@ -103,9 +103,7 @@ public class Prenotazione {
         try {
             Prenotazione p = mapper.readValue(s, Prenotazione.class);
             return p;
-        } catch (JsonProcessingException e) {
-            //e.printStackTrace();
-        }
+        } catch (JsonProcessingException e) {}
         return null;
     }
 

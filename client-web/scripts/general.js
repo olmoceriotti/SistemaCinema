@@ -1,5 +1,4 @@
 function generaPaginaInfo(film, externalInfo){
-    console.log(film);
     const dialog = document.createElement("dialog");
     dialog.classList.add("infoPage");
     
@@ -13,7 +12,6 @@ function generaPaginaInfo(film, externalInfo){
     const genere = document.createElement("p");
     genere.textContent = "Genere: " + externalInfo.genres[0].name;
     leftCol.appendChild(genere);
-
 
     const durata = document.createElement("p");
     durata.textContent = "Durata: " + film.durata;

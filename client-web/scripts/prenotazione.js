@@ -201,16 +201,20 @@ async function modificaPrenotazione(prenotazione){
         }else{
             const posti = prenotazione.posti.filter((element) => !postiRimanenti.includes(element));
         
-        options = {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(posti)
-        }
-
-       await fetch("http://localhost:8080/prenotazione/" + prenotazione.id, options);
-       fetchData(prenotazione.id);
+            options = {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(posti)
+            }
+            try{
+                await fetch("http://localhost:8080/prenotazione/" + prenotazione.id, options);
+                fetchData(prenotazione.id);
+            }catch(error){
+                showAvviso("Qualcosa è andato storto!");
+            }
+        
         }   
     }
 }
