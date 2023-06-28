@@ -61,18 +61,13 @@ nav #logo span {
   font-weight: 100;
   font-size: 2rem;
 }
-nav form input {
-  background-color: #ededed;
-  padding: 0.4rem;
-  width: 15rem;
-  border-radius: 5px;
-  background-image: url(../../resources/magnifying-glass-solid.svg);
-  background-repeat: no-repeat;
-  background-position: right 2px center;
-}
-nav form input:focus {
-  outline: none;
-  box-shadow: none;
+nav .mcu {
+  color: #fff;
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 400;
 }
 
 .active {
@@ -165,7 +160,6 @@ footer .copyright {
   width: 40rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  /* Resize images in the right column */
 }
 .infoPage .leftCol {
   flex: 1;
@@ -183,7 +177,6 @@ footer .copyright {
   font-size: 1.3rem;
 }
 .infoPage .leftCol h3 {
-  /* Modify or replace with your desired title styles */
   font-size: 1.5rem;
   color: #fff;
   font-family: "Montserrat";

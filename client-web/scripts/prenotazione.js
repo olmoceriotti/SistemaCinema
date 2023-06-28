@@ -1,6 +1,17 @@
 const mainButton = document.querySelector(".btn");
+const qrButton = document.querySelector(".qr");
+const fileInput = document.querySelector("input[type=file]")
+const inputArea = document.querySelector(".input");
 
+inputArea.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      mainButton.click();
+    }
+});
 mainButton.addEventListener("click", getPrenotazione);
+qrButton.addEventListener("click", () => {
+    fileInput.click();
+});
 
 async function getPrenotazione(){
     const input = document.querySelector(".input");
@@ -301,3 +312,29 @@ function showAvviso(text){
 
     dialog.showModal();
 }
+
+function fetchQR(userFile, formData) {
+    fetch("https://api.qrserver.com/v1/read-qr-code/", {
+        method: 'POST', body: formData
+    }).then(res => res.json()).then(result => {
+        result = result[0].symbol[0].data;
+        const input = document.querySelector("body > div > section > div > input");
+        if(result){
+            showAvviso("QR Code letto correttamente!");
+            input.value = result;
+
+        }else{
+            showAvviso("Impossibile leggere QR Code");
+        }
+    }).catch(() => {
+        showAvviso("Impossibile leggere QR Code");
+    });
+}
+
+fileInput.addEventListener("change", async event => {
+    const userFile = event.target.files[0];
+    if(!userFile) return;
+    const formData = new FormData();
+    formData.append('file', userFile);
+    fetchQR(userFile, formData);
+});

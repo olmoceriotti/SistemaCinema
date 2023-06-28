@@ -58,21 +58,11 @@ nav {
             @include logoSecondary();
         }
     }
-    form {
-        input {
-            background-color: $secondary;
-            padding: 0.4rem;
-            width: 15rem;
-            border-radius: 5px;
-            background-image: url(../../resources/magnifying-glass-solid.svg);
-            background-repeat: no-repeat;
-            background-position: right 2px center;
-
-            &:focus {
-                outline: none;
-                box-shadow: none;
-            }
-        }
+    .mcu{
+        color: $text;
+        @include paragraph;
+        margin: 0;
+        font-weight: 400;
     }
 
 }
@@ -178,7 +168,6 @@ footer{
             font-size: 1.3rem;
         }
         h3 {
-            /* Modify or replace with your desired title styles */
             font-size: 1.5rem;
             color: $text;
             @include title;
@@ -211,7 +200,6 @@ footer{
         justify-content: flex-end;
     }
 
-    /* Resize images in the right column */
     .rightCol img {
         max-width: 100%;
         height: auto;

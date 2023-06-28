@@ -142,7 +142,7 @@ public class Database {
 
     public synchronized boolean unlock(String owner, String keys){
         if(owner == null || keys == null) return false;
-        String[] list = keys.split("-");
+        String[] list = keys.split("--");
         for(String key : list){
             if(!lockedKeys.get(owner).contains(key)){
                 return false;

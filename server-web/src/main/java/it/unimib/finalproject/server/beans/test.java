@@ -18,15 +18,6 @@ public class test {
     public static void main(String[] args) throws JsonProcessingException, URISyntaxException {
         //populateFilms();
         //populateProiezione();
-        ArrayList<String> posti = new ArrayList<>();
-        posti.add("B0");
-        posti.add("B1");
-        posti.add("B2");
-        System.out.println(mapper.writeValueAsString(posti));
-        String b = "[\"B0\",\"B1\",\"B2\"]";
-        ArrayList<String> b1 = mapper.readValue(b, ArrayList.class);
-        System.out.println(b1.get(0));
-        
     }
 
     private static void populateFilms() throws JsonProcessingException, URISyntaxException{
@@ -53,7 +44,7 @@ public class test {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         ArrayList<Proiezione> proiezioni = new ArrayList<Proiezione>();
         proiezioni.add(new Proiezione("1", "1", LocalDateTime.of(2023, 7, 12, 20, 30), "U1"));
-        /*proiezioni.add(new Proiezione("2", "2", LocalDateTime.of(2023, 7, 12, 21, 30), "U2"));
+        proiezioni.add(new Proiezione("2", "2", LocalDateTime.of(2023, 7, 12, 21, 30), "U2"));
         proiezioni.add(new Proiezione("3", "3", LocalDateTime.of(2023, 7, 12, 22, 30), "U1"));
         proiezioni.add(new Proiezione("4", "4", LocalDateTime.of(2023, 7, 12, 23, 30), "U2"));
         proiezioni.add(new Proiezione("5", "1", LocalDateTime.of(2023, 7, 13, 20, 30), "U1"));
@@ -63,7 +54,7 @@ public class test {
         proiezioni.add(new Proiezione("9", "1", LocalDateTime.of(2023, 7, 14, 20, 30), "U1"));
         proiezioni.add(new Proiezione("10", "2", LocalDateTime.of(2023, 7, 14, 21, 30), "U2"));
         proiezioni.add(new Proiezione("11", "3", LocalDateTime.of(2023, 7, 14, 22, 30), "U1"));
-        proiezioni.add(new Proiezione("12", "4", LocalDateTime.of(2023, 7, 14, 23, 30), "U2"));*/
+        proiezioni.add(new Proiezione("12", "4", LocalDateTime.of(2023, 7, 14, 23, 30), "U2"));
         for (Proiezione proiezione : proiezioni) {
             ProtocolHandler prtcl = new ProtocolHandler();
             String s = mapper.writeValueAsString(proiezione);
