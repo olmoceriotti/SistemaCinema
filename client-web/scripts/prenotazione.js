@@ -313,7 +313,7 @@ function showAvviso(text){
     dialog.showModal();
 }
 
-function fetchQR(userFile, formData) {
+function fetchQR(formData) {
     fetch("https://api.qrserver.com/v1/read-qr-code/", {
         method: 'POST', body: formData
     }).then(res => res.json()).then(result => {
@@ -336,5 +336,5 @@ fileInput.addEventListener("change", async event => {
     if(!userFile) return;
     const formData = new FormData();
     formData.append('file', userFile);
-    fetchQR(userFile, formData);
+    fetchQR(formData);
 });

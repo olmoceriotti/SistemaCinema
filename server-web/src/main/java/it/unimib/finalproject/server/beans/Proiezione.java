@@ -3,9 +3,12 @@ package it.unimib.finalproject.server.beans;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -41,7 +44,7 @@ public class Proiezione {
 
     public boolean checkDisponibilitàPosti(List<String> posti){
         for (String posto : posti) {
-            if (postiPrenotati.contains(posto)){
+            if (postiPrenotati.contains(posto)  || !isPosto(posto)){
                 return false;
             }
         }
@@ -50,31 +53,27 @@ public class Proiezione {
 
     public boolean checkPostiOccupati(List<String> posti){
         for (String posto : posti) {
-            if (!postiPrenotati.contains(posto)){
+            if (!postiPrenotati.contains(posto) || !isPosto(posto)){
                 return false;
             }
         }
         return true;
     }
 
-    public void addPostiOccupati(List<String> posti){
+    public boolean addPostiOccupati(List<String> posti){
+        for(String posto : posti){
+            if(!isPosto(posto)) return false;
+        }
         this.postiPrenotati.addAll(posti);
         this.totPostiOccupati = this.postiPrenotati.size();
+        return true;
     }
 
     public boolean removePostiOccupati(String posti){
         ObjectMapper mapper = new ObjectMapper();
         try {
-            ArrayList<String> listaPosti = mapper.readValue(posti, ArrayList.class);
-            for (String posto : listaPosti) {
-                if(this.postiPrenotati.contains(posto)){
-                    this.postiPrenotati.remove(posto);
-                }else{
-                    return false;
-                }
-            }
-            this.totPostiOccupati = this.postiPrenotati.size();
-            return true;
+            ArrayList<String> listaPosti = mapper.readValue(posti, new TypeReference<ArrayList<String>>() {});
+            return removePostiOccupati(listaPosti);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return false;
@@ -83,7 +82,7 @@ public class Proiezione {
 
     public boolean removePostiOccupati(List<String> listaPosti){
         for (String posto : listaPosti) {
-            if(this.postiPrenotati.contains(posto)){
+            if(isPosto(posto) && this.postiPrenotati.contains(posto)){
                 this.postiPrenotati.remove(posto);
             }else{
                 return false;
@@ -92,6 +91,13 @@ public class Proiezione {
         this.totPostiOccupati = this.postiPrenotati.size();
         return true;
         
+    }
+
+    static boolean isPosto(String posto){
+        String regex = "^[A-O][0-9]$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(posto);
+        return matcher.matches();
     }
 
     public static ArrayList<Proiezione> buildFromStringList(String list){
@@ -112,10 +118,11 @@ public class Proiezione {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         try {
-            Proiezione p = mapper.readValue(proiezione, Proiezione.class);
-            return p;
+            if(proiezione != null){
+                Proiezione p = mapper.readValue(proiezione, Proiezione.class);
+                return p;
+            }
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
         }
         return null;
     }

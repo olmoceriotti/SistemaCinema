@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -19,7 +20,8 @@ public class Prenotazione {
     @JsonProperty
     private List<String> posti;
 
-    public Prenotazione(){}
+    public Prenotazione(){
+    }
 
     public Prenotazione(String proiezioneID, List<String> posti){
         this.id = UUID.randomUUID().toString();
@@ -42,6 +44,10 @@ public class Prenotazione {
         }
     }
 
+    public void setNumeroPosti(){
+        this.numeroPosti = this.posti.size();
+    }
+
     public List<String> getPosti(){
         List<String> copy = new ArrayList<String>(this.posti);
         return copy;
@@ -52,10 +58,10 @@ public class Prenotazione {
         boolean check1 = true;
         boolean check2 = true;
         try {
-            ArrayList<String> listaPosti = mapper.readValue(posti, ArrayList.class);
+            ArrayList<String> listaPosti = mapper.readValue(posti, new TypeReference<ArrayList<String>>() {});
 
             for (String posto : listaPosti) {
-                if(!this.posti.contains(posto)){
+                if(!this.posti.contains(posto) || !Proiezione.isPosto(posto)){
                     check1 = false;
                 }
             }
@@ -98,11 +104,13 @@ public class Prenotazione {
         return objList;
     }
 
-    public static Prenotazione buildFromString(String s){
+    public static Prenotazione buildFromString(String prenotazione){
         ObjectMapper mapper = new ObjectMapper();
         try {
-            Prenotazione p = mapper.readValue(s, Prenotazione.class);
-            return p;
+            if(prenotazione !=  null){
+                Prenotazione p = mapper.readValue(prenotazione, Prenotazione.class);
+                return p;
+            }
         } catch (JsonProcessingException e) {}
         return null;
     }

@@ -61,7 +61,7 @@ public class Database {
         return value;
     }
 
-    public boolean update(String owner, String key, String value){
+    public synchronized boolean update(String owner, String key, String value){
         boolean isImplicitLock = false;
         if(!isLocked(key)){
             if(owner == null){
@@ -82,7 +82,7 @@ public class Database {
         return false;  
     }
 
-    public boolean delete(String owner, String key){
+    public synchronized boolean delete(String owner, String key){
         boolean isImplicitLock = false;
         if(!isLocked(key)){
             if(owner == null){

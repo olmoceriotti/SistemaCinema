@@ -3,6 +3,8 @@ package it.unimib.finalproject.server;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -26,7 +28,11 @@ public class PrenotazioniResources {
     public Response createPrenotazione(@PathParam("id") int id, String body){
         String token = UUID.randomUUID().toString();
         Prenotazione pre = Prenotazione.buildFromString(body);
+        if(pre == null || pre.getPosti().isEmpty()){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         pre.setId();
+        pre.setNumeroPosti();
         ProtocolHandler prtcl = new ProtocolHandler();
         while(true){
             if(prtcl.lock(token, "proiezione:" + pre.getProiezioneID())){
@@ -37,7 +43,11 @@ public class PrenotazioniResources {
                     pro.addPostiOccupati(pre.getPosti());
                     prtcl.update(token, "proiezione:" + pro.getId(), pro.toString());
                     prtcl.unlock(token, "proiezione:" + pre.getProiezioneID());
-                    return Response.ok(pre.getID()).build();
+                    try {
+                        return Response.created(new URI(pre.getID())).build();
+                    } catch (URISyntaxException e) {
+                        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                    }
                 }else{
                     prtcl.unlock(token, "proiezione:" + pre.getProiezioneID());
                     return Response.status(Response.Status.BAD_REQUEST).build();
@@ -76,6 +86,9 @@ public class PrenotazioniResources {
         ProtocolHandler prtcl = new ProtocolHandler();
         String s = prtcl.read("prenotazione:" + id);
         Prenotazione p = Prenotazione.buildFromString(s);
+        if(p == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         ArrayList<String> keys = new ArrayList<>();
         keys.add("prenotazione:" + id);
         keys.add("proiezione:" + p.getProiezioneID());
@@ -87,7 +100,7 @@ public class PrenotazioniResources {
                     prtcl.update(token, "prenotazione:" + p.getID(), p.toString());
                     prtcl.update(token, "proiezione:" + pro.getId(), pro.toString());
                     prtcl.unlock(token, keys);
-                    return Response.ok(p.getID()).build();
+                    return Response.noContent().build();
                 }else{
                     prtcl.unlock(token, keys);
                     return Response.status(Response.Status.BAD_REQUEST).build();
@@ -113,15 +126,17 @@ public class PrenotazioniResources {
         ProtocolHandler prtcl = new ProtocolHandler();
         String p = prtcl.read("prenotazione:" + id);
         Prenotazione pre = Prenotazione.buildFromString(p);
-        p = prtcl.read("proiezione:" + pre.getProiezioneID());
-        Proiezione pro  = Proiezione.buildFromString(p);
-        if(pro.removePostiOccupati(pre.getPosti())){
-            if(prtcl.delete(token, "prenotazione:" + id)){
-                prtcl.update(token, "proiezione:" + pro.getId(), pro.toString());
-                return Response.noContent().build();
+        if(pre != null){
+            p = prtcl.read("proiezione:" + pre.getProiezioneID());
+            Proiezione pro  = Proiezione.buildFromString(p);
+            if(pro.removePostiOccupati(pre.getPosti())){
+                if(prtcl.delete(token, "prenotazione:" + id)){
+                    prtcl.update(token, "proiezione:" + pro.getId(), pro.toString());
+                    return Response.noContent().build();
+                } 
             }
-            
-        };
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 }

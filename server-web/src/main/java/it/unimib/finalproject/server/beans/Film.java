@@ -3,10 +3,8 @@ package it.unimib.finalproject.server.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.type.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.*;
 
