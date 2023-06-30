@@ -231,11 +231,10 @@ async function onSubmit(id){
     }
 
     if(data.numeroPosti != "0"){
-        fetch("http://localhost:8080/prenotazione/", options).then(function (response) {
+        fetch("http://localhost:8080/prenotazione/", options).then(async function (response) {
             if (response.status === 201) {
-                let locationHeader = response.headers.get("Location");
-                locationHeader = locationHeader.replace("http://localhost:8080/prenotazione/", "");
-                inviaConfermaPrenotazione(locationHeader);
+                const json = await response.json();
+                inviaConfermaPrenotazione(json);
             }
         })
         .catch(function (error) {

@@ -44,15 +44,15 @@ public class PrenotazioniResources {
                     pro.addPostiOccupati(pre.getPosti());
                     prtcl.update(token, "proiezione:" + pro.getId(), pro.toString());
                     prtcl.unlock(token, "proiezione:" + pre.getProiezioneID());
-                    try {
+                    //try {
                         System.out.println("AAAA");
-                        
+                        /*
                         URI uri = new URI("prenotazione/" + pre.getID());
-                        System.out.println(uri.toString()); 
-                        return Response.created(uri).build();
-                    } catch (URISyntaxException e) {
+                        System.out.println(uri.toString()); */
+                        return Response.status(Response.Status.CREATED).entity(pre.getID()).build();
+                    /*-} catch (URISyntaxException e) {
                         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-                    }
+                    }*/
                 }else{
                     prtcl.unlock(token, "proiezione:" + pre.getProiezioneID());
                     return Response.status(Response.Status.BAD_REQUEST).build();
