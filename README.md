@@ -19,7 +19,7 @@ I tre componenti necessitano dei seguenti passaggi per essere eseguiti correttam
 
 I tre componenti devono essere necessariamente eseguiti sulla stessa macchina per funzionare correttamente. L'esecuzione su diverse macchine è possibile ma necessiterebbe modifiche agli indirizzi scritti nel codice.
 
-Si consiglia di eseguire il codice su un dispositivo con un monitor di almeno 13 pollici.
+Si consiglia di eseguire il codice su un dispositivo con un monitor di almeno 15 pollici.
 
 ## Porte e indirizzi
 

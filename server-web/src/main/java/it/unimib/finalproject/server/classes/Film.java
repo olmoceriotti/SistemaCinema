@@ -44,7 +44,6 @@ public class Film implements Serializable {
             String obj = list.substring(0, end);
             list = list.substring(end + 2);
             int divider = obj.indexOf("/");
-            //System.out.println(obj.substring(0, divider));
             obj = obj.substring(divider +1);
             objList.add(buildFromString(obj));
         }

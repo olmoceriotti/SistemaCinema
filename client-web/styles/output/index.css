@@ -4,6 +4,9 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 main h2 {
   font-family: "Kanit";
@@ -11,7 +14,7 @@ main h2 {
   font-size: 7rem;
   font-style: italic;
   color: #fff;
-  margin: 0 0 2rem;
+  margin: 1px 0 2rem;
 }
 main .main-buttons {
   width: 50vw;

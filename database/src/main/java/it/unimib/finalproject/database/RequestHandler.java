@@ -49,7 +49,6 @@ public class RequestHandler extends Thread {
             }
             validator = protocol.readInput(inputLine);
             if(!validator){
-                //System.out.println("A problem occurred on the keyword: " +  inputLine);
                 return false;
             };
         }

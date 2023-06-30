@@ -218,7 +218,6 @@ function rimuoviPosto(td){
 async function onSubmit(id){
     const data = {
         proiezioneID: id,
-        //numeroPosti: document.querySelector(".counterPosti").textContent.replace("Numero posti selezionati: ", ""),
         posti: document.querySelector(".listaPosti").textContent.replace("Posti selezionati: ", "").split(", ")
     }
     const options = {

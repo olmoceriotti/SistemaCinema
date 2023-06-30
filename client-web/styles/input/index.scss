@@ -6,10 +6,13 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     h2 {
         @include quote();
-        margin: 0 0 2rem;
+        margin: 1px 0 2rem;
     }
 
     .main-buttons{
