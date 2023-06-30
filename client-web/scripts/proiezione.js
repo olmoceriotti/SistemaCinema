@@ -55,7 +55,6 @@ async function createProiezione(obj){
 
     const posti = document.createElement("div");
     posti.textContent = 150 - parseInt(obj["totale posti occupati"]);
-    console.log(obj["totale posti occupati"]);
     posti.classList.add("posti");
     prenotazione.appendChild(posti);
 
@@ -231,16 +230,24 @@ async function onSubmit(id){
     }
 
     if(data.numeroPosti != "0"){
-        fetch("http://localhost:8080/prenotazione/", options).then(async function (response) {
+        fetch("http://localhost:8080/prenotazione/", options)
+        .then(async function (response) {
             if (response.status === 201) {
                 const json = await response.json();
                 inviaConfermaPrenotazione(json);
+            } else {
+                throw new Error(response.status);
             }
         })
         .catch(function (error) {
-            console.log(error);
-            showAvviso("I posti non sono più disponibili!")
-        });     
+            if(error.contains("400")){
+                showAvviso("I posti non sono più disponibili!");
+            }else{
+                showAvviso("Qualcosa è andato storto");
+            } 
+        });
+        
+            
     }
 }
 

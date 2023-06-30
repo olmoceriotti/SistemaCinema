@@ -119,8 +119,6 @@ public class ProtocolHandler {
         command += key;
         command += "+;";
         String response = executeCommand(command);
-        System.out.println("Lock: " + response);
-        
         if (response != null) {
             if (response.contains("OK")) {
                 return true;
@@ -161,7 +159,7 @@ public class ProtocolHandler {
         dbChan.sendMessage(command);
         try {
             String response = dbChan.receiveMessage();
-            System.out.println("ProtocolHandelr:162: " + response);
+            //System.out.println("ProtocolHandelr:162: " + response);
             return response;
         } catch (IOException e) {
             e.printStackTrace();

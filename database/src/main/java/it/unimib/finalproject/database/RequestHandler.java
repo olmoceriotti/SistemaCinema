@@ -19,7 +19,6 @@ public class RequestHandler extends Thread {
             out = new PrintWriter(client.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         }catch(IOException e){
-            System.out.println("No clue");
         }
         
     }
@@ -46,12 +45,11 @@ public class RequestHandler extends Thread {
         boolean validator = false;
         while ((inputLine = in.readLine()) != null) {
             if(";".equals(inputLine)){
-                System.out.println("Connection closed");
                 return true;
             }
             validator = protocol.readInput(inputLine);
             if(!validator){
-                System.out.println("A problem occurred on the keyword: " +  inputLine);
+                //System.out.println("A problem occurred on the keyword: " +  inputLine);
                 return false;
             };
         }

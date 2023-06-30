@@ -25,7 +25,6 @@ async function createFilmCard(film) {
   const img = document.createElement("img");
   
   const externalInfo =  await getExternalInfo(film.externalID);
-  console.log(externalInfo);
   const url = "https://image.tmdb.org/t/p/original/" + externalInfo.poster_path;
   img.src = url;
   filmCard.appendChild(img);
@@ -39,8 +38,4 @@ async function createFilmCard(film) {
   filmCard.appendChild(button);
 
   return filmCard;
-}
-
-function createErrorMessage(){
-    alert("ciaociao ci vediamo");
 }

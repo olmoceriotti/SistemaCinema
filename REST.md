@@ -37,8 +37,6 @@ Nell'endpoint `/film` sono raggruppate tutte le operazioni relative ai film
 * 200 OK
 * 404 NOT FOUND: non esiste un film con l'ID specificato nel percorso.
 
-### delete?
-
 ## `/proiezione`
 
 Nell'endpoint `/proiezione` sono raggruppate tutte le operazioni relative alle proiezioni.
@@ -73,8 +71,6 @@ Nell'endpoint `/proiezione` sono raggruppate tutte le operazioni relative alle p
 
 * 200 OK
 * 404 NOT FOUND: non esiste una proiezione con l'ID specificato nel percorso.
-
-### delete ?
 
 ## `/prenotazione`
 

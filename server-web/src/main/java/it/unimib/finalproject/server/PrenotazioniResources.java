@@ -3,12 +3,10 @@ package it.unimib.finalproject.server;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import it.unimib.finalproject.server.beans.*;
+import it.unimib.finalproject.server.classes.*;
 
 @Path("prenotazione")
 public class PrenotazioniResources {
@@ -28,7 +26,6 @@ public class PrenotazioniResources {
     public Response createPrenotazione(@PathParam("id") int id, String body){
         String token = UUID.randomUUID().toString();
         Prenotazione pre = Prenotazione.buildFromString(body);
-        System.out.println(pre.toString());
         if(pre == null || pre.getPosti().isEmpty()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -44,15 +41,7 @@ public class PrenotazioniResources {
                     pro.addPostiOccupati(pre.getPosti());
                     prtcl.update(token, "proiezione:" + pro.getId(), pro.toString());
                     prtcl.unlock(token, "proiezione:" + pre.getProiezioneID());
-                    //try {
-                        System.out.println("AAAA");
-                        /*
-                        URI uri = new URI("prenotazione/" + pre.getID());
-                        System.out.println(uri.toString()); */
-                        return Response.status(Response.Status.CREATED).entity(pre.getID()).build();
-                    /*-} catch (URISyntaxException e) {
-                        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-                    }*/
+                    return Response.status(Response.Status.CREATED).entity(pre.getID()).build();
                 }else{
                     prtcl.unlock(token, "proiezione:" + pre.getProiezioneID());
                     return Response.status(Response.Status.BAD_REQUEST).build();

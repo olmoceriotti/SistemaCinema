@@ -3,9 +3,7 @@ package it.unimib.finalproject.database;
 public class ProtocolHandler {
     private final int START = 1;
     private final int KEY = 2;
-    //private final int END_TAG = 3;
     private final int KEY_VALUE = 3;
-    //private final int SEPARATOR = 4;
     private final int VALUE = 4;
     private final int READY = 5;
 
@@ -45,11 +43,8 @@ public class ProtocolHandler {
             break;
         
             default:
-                System.out.println("Protocolhandler: stato inesistente");
-                break;
-        }
-        if(!success){
-            System.out.println("Invalid argument passed for the state: " + this.state);
+                success = false;
+            break;
         }
         return success;
     }
@@ -70,7 +65,7 @@ public class ProtocolHandler {
 
     boolean execute(){
         if(state != READY){
-            System.out.println("Impossible to execute: missing parameters!");
+
             return false;
         }
         boolean success = false;
@@ -104,7 +99,6 @@ public class ProtocolHandler {
                 success = db.unlock(owner, key);
             break;
             default:
-                System.out.println("Not a valid command");
                 success = false;
             break;
         }

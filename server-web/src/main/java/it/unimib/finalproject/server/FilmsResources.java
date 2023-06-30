@@ -4,9 +4,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.util.List;
-import java.util.UUID;
 
-import it.unimib.finalproject.server.beans.*;
+import it.unimib.finalproject.server.classes.*;
 
 @Path("film")
 public class FilmsResources {
@@ -30,17 +29,6 @@ public class FilmsResources {
         if(filmObj != null){
             return Response.ok(filmObj).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
-
-    @Path("/{id}")
-    @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteFilm(@PathParam("id") int id){
-        String token = UUID.randomUUID().toString();
-        ProtocolHandler prtcl = new ProtocolHandler();
-        if(prtcl.delete(token, "film:" + id))
-            return Response.noContent().build();
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 }

@@ -32,10 +32,10 @@ public class Database {
             dis = new DataInputStream(fis);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Impossible to access Database Backup file");
+            System.err.println("Impossible to access Database Backup file");
         }
         restoreFromBackup();
-        System.out.println("backup restored");
+        System.out.println("Backup restored");
         if(snapshots) startSnapshotDaemon();
     }
 
@@ -47,7 +47,6 @@ public class Database {
                 return true;
             }
         }catch(NullPointerException e){
-            System.out.println("CREATE: Key or Value are null");
         }
         return false;
     }
@@ -55,7 +54,6 @@ public class Database {
     public String read(String key){
         String value = database.get(key);
         if (value == null){
-            System.out.println("Impossible to retrieve the requested data"); 
             return "ERRORE";
         }
         return value;
@@ -73,7 +71,6 @@ public class Database {
         if(lockedKeys.keySet().contains(owner)  && lockedKeys.get(owner).contains(key)){
             String result = database.replace(key, value);
             if (result == null){
-                System.out.println("Impossible to modify a non-existing value");
                 return false;
             }
             if(isImplicitLock) unlock(owner, key);
@@ -94,7 +91,6 @@ public class Database {
         if(lockedKeys.keySet().contains(owner) && lockedKeys.get(owner).contains(key)){
             String value = database.remove(key);
             if(value == null){
-                System.out.println("Impossible to delete the requested data");
                 return false;
             }
             if(isImplicitLock) unlock(owner, key);
@@ -195,7 +191,7 @@ public class Database {
                 try {
                     dos.writeUTF(sb.toString());
                 } catch (IOException e) {
-                    System.out.println("Impossible to write on Database Backup file");
+                    System.err.println("Impossible to write on Database Backup file");
                 }
             }
         }
@@ -206,7 +202,6 @@ public class Database {
         String data;
         try{
             while((data = dis.readUTF()) != null){
-                //System.out.println(data);
                 String[] pair = getKeyValue(data);
                 database.put(pair[0], pair[1]);
             }
@@ -221,7 +216,6 @@ public class Database {
     private boolean isLocked(String key){
         for(String o : lockedKeys.keySet()){
             if(lockedKeys.get(o).contains(key)){
-                System.out.println("The key is locked");
                 return true;
             }
         }
@@ -231,7 +225,6 @@ public class Database {
     private String[] getKeyValue(String data){
         int divider = data.indexOf(";");
         if (divider == -1) {
-            System.out.println("Data format not valid");
             return null;
         }
         String key = data.substring(0, divider);
