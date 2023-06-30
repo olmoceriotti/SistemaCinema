@@ -1,0 +1,28 @@
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+h3 {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 3rem;
+  color: #fff;
+}
+
+p {
+  font-family: "Montserrat";
+  font-weight: 200;
+  font-size: 1rem;
+  color: #fff;
+  font-size: 1.75rem;
+}
+p a {
+  text-decoration: underline;
+}
+p a:hover {
+  color: #cccccc;
+}
+
+/*# sourceMappingURL=about.css.map */

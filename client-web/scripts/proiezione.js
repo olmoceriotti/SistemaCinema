@@ -240,7 +240,7 @@ async function onSubmit(id){
         })
         .catch(function (error) {
             console.log(error);
-            showAvviso("Qualcosa è andato storto!")
+            showAvviso("I posti non sono più disponibili!")
         });     
     }
 }

@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CINEmah</title>
-    <link rel="icon" type="image/svg+xml" href="../resources/ticket-solid.svg">
+    <link rel="icon" type="image/svg+xml" href="../resources/circle-info-solid.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,700;0,800;0,900;1,100&family=Montserrat:wght@200;300;400;500&display=swap">
     <link rel="stylesheet" href="../styles/output/general.css">
-    <link rel="stylesheet" href="../styles/output/prenotazioni.css">
+    <link rel="stylesheet" href="../styles/output/about.css">
 </head>
 
 <body>
@@ -21,25 +21,20 @@
             <div class="nav-wrapper">
                 <div id="logo"><a href="../index.html">CINE<span>mah</span></a></div>
                 <div class="el-wrapper">
-                    <a href="proiezioni.html">Proiezioni</a>
+                    <a href="../structure/proiezioni.html">Proiezioni</a>
                 </div>
                 <div class="el-wrapper">
-                    <a href="prenotazioni.html" class = "active">Prenotazioni</a>
+                    <a href="../structure/prenotazioni.html">Prenotazioni</a>
                 </div>
             </div>
             <p class="mcu"></p>
         </nav>
         <div class="break-line"></div>
-        <section class="section">
-            <h3>Inserisci il codice della tua prenotazione</h3>
-            <div class="inputform">
-                <input type="text" class="input">
-                <div class="buttons">
-                    <input type="file" hidden>
-                    <button class="qr">Usa Qr</button>
-                    <button class="btn">Vai</button>
-                </div>
-            </div>
+        <section>
+            <h3>API Esterne</h3>
+            <p>Dati relativi ai film: <a href="https://developer.themoviedb.org/docs" target="_blank">TheMovieDB</a></p>
+            <p>Creazione e lettura di QR code: <a href="https://goqr.me/api/" target="_blank">GoQR</a></p>
+            <p>Dati riguardanti l'MCU: <a href="https://github.com/DiljotSG/MCU-Countdown/tree/develop" target="_blank">MCU Countdown</a></p>
         </section>
         <div class="break-line"></div>
         <footer>
@@ -53,9 +48,8 @@
                 </p>
             </div>
         </footer>
+        <script src="../scripts/general.js"></script>
     </div>
-    <script src="../scripts/general.js"></script>
-    <script src="../scripts/prenotazione.js"></script>
 </body>
 
 </html>

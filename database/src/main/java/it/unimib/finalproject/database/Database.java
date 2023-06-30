@@ -152,6 +152,9 @@ public class Database {
         for(String key : list){
             lockedKeys.get(owner).remove(key);
         }
+        if(lockedKeys.get(owner).isEmpty()){
+            lockedKeys.remove(owner);
+        }
         return true;
     }
 
@@ -160,8 +163,8 @@ public class Database {
         Thread daemonThread = new Thread(() -> {
             while(true){
                 try {
-                    Thread.sleep(2000);
-                    saveSnapshot();
+                    Thread.sleep(1000);
+                    if(lockedKeys.isEmpty()) saveSnapshot(copyMap(database));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -179,7 +182,7 @@ public class Database {
         daemonThread.start();
     }
 
-    private void saveSnapshot() throws FileNotFoundException, IOException{
+    private void saveSnapshot(HashMap<String, String> database) throws FileNotFoundException, IOException{
         Iterator<String> iterator = database.keySet().iterator();
         dos = new DataOutputStream(new FileOutputStream(FILENAME, false));
         while(iterator.hasNext()){
@@ -235,6 +238,10 @@ public class Database {
         String value = data.substring(divider + 1);
         String[] pair = {key, value};
         return pair;
+    }
+
+    private synchronized HashMap<String, String> copyMap(HashMap<String, String> map){
+        return new HashMap<>(map);
     }
 
     public static Database getInstance(){

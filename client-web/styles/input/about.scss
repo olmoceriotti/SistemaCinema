@@ -1,0 +1,28 @@
+@import 'style-guide';
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+h3 {
+    @include title;
+    color: $text;
+}
+
+p {
+    @include paragraph;
+    color: $text;
+    font-size: 1.75rem;
+    
+    a {
+        text-decoration: underline;
+    }
+
+    a:hover {
+       color: darken($text, 20);
+    }
+}
+
+

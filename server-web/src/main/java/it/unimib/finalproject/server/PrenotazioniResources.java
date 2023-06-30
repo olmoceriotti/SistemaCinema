@@ -35,7 +35,7 @@ public class PrenotazioniResources {
         pre.setId();
         pre.setNumeroPosti();
         ProtocolHandler prtcl = new ProtocolHandler();
-        while(true){
+        for(int i = 0; i< 500; i++){
             if(prtcl.lock(token, "proiezione:" + pre.getProiezioneID())){
                 String s = prtcl.read("proiezione:" + pre.getProiezioneID());
                 Proiezione pro = Proiezione.buildFromString(s);
@@ -97,7 +97,7 @@ public class PrenotazioniResources {
         ArrayList<String> keys = new ArrayList<>();
         keys.add("prenotazione:" + id);
         keys.add("proiezione:" + p.getProiezioneID());
-        while(true){
+        for(int i = 0; i < 500; i++){
             if(prtcl.lock(token, keys)){
                 String s1 = prtcl.read("proiezione:" + p.getProiezioneID());
                 Proiezione pro = Proiezione.buildFromString(s1);
