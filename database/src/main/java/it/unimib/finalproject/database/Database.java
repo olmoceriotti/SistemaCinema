@@ -116,7 +116,7 @@ public class Database {
         while(i.hasNext()){
             key = i.next();
             if(key.contains(filter)){
-                output += key + "/" + this.read(key) + ";\n";
+                output += key + "/" + this.read(key) + "--\n";
             }
         }
         output = output.replace("ERRORE", "");

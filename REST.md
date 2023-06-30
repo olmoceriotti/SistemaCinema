@@ -45,13 +45,13 @@ Nell'endpoint `/proiezione` sono raggruppate tutte le operazioni relative alle p
 
 ### GET
 
-**Descrizione**: il metodo GET restituisce una lista le proiezioni in formato JSON.
+**Descrizione**: il metodo GET restituisce una lista delle proiezioni in formato JSON.
 
 **Parametri**: Non sono previsti parametri per questa richiesta.
 
 **Body richiesta**: Non è previsto un body per questa richiesta.
 
-**Risposta**: La risposta è un array JSON di oggetti proiezione. Un oggetto JSON film ha i seguenti campi: id, orario, sala, filmID, totale posti occupati e posti prenotati. Il campo orario è un array di interi che rappresentano, in ordine, anno, mese, giorno, ora e minuti. Il campo posti prenotati è un array di stringhe contenente solo stringhe che rispettano la seguente espressione regolare: `^[A-O][0-9]$`
+**Risposta**: La risposta è un array JSON di oggetti proiezione. Un oggetto JSON proiezione ha i seguenti campi: id, orario, sala, filmID, totale posti occupati e posti prenotati. Il campo orario è un array di interi che rappresentano, in ordine, anno, mese, giorno, ora e minuti. Il campo posti prenotati è un array di stringhe contenente solo stringhe che rispettano la seguente espressione regolare: `^[A-O][0-9]$`
 
 **Codici di stato restituiti**:
 
@@ -105,7 +105,7 @@ Nell'endpoint `/proiezione` sono raggruppate tutte le operazioni relative alle p
 **Codici di stato restituiti**:
 
 * 201 CREATED
-* 400 BAD REQUEST: l'oggetto JSON non rispetta il formato richiesto, l'array contenente i posti è vuoto, i posti che si sta cercando prenotare sono già occupati, si sta cercando di prenotare posti che non rispettano la seguente espressione regolare: `^[A-O][0-9]$` oppure si sta cercando di prenotare una proiezione inesistente.
+* 400 BAD REQUEST: l'oggetto JSON non rispetta il formato richiesto, l'array contenente i posti è vuoto, i posti che si sta cercando di prenotare sono già occupati, si sta cercando di prenotare posti che non rispettano la seguente espressione regolare: `^[A-O][0-9]$` oppure si sta cercando di prenotare una proiezione inesistente.
 * 500 INTERNAL SERVER ERROR: in caso di request timeout.
 
 ## `/prenotazione/{id}`
@@ -155,4 +155,5 @@ Nell'endpoint `/proiezione` sono raggruppate tutte le operazioni relative alle p
 **Codici di stato restituiti**:
 
 * 204 NO CONTENT
+* 400 BAD REQUEST: i posti che si sta cercando di eliminare non sono presenti nella prenotazione oppure non rispettano la seguente espressione regolare: `^[A-O][0-9]$`  
 * 404 NOT FOUND: non esiste una prenotazione con l'ID specificato nel percorso.

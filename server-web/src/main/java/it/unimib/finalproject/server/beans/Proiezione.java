@@ -103,9 +103,9 @@ public class Proiezione {
     public static ArrayList<Proiezione> buildFromStringList(String list){
         int end;
         ArrayList<Proiezione> objList = new ArrayList<Proiezione>();
-        while((end = list.indexOf(";")) != -1){
+        while((end = list.indexOf("--")) != -1){
             String obj = list.substring(0, end);
-            list = list.substring(end +1);
+            list = list.substring(end + 2);
             int divider = obj.indexOf("/");
             obj = obj.substring(divider +1);
             objList.add(buildFromString(obj));

@@ -26,22 +26,7 @@ public class RequestHandler extends Thread {
 
     public void run() {
         try {
-            String inputLine;
-            boolean validator = false;
-            //Extract method
-            while ((inputLine = in.readLine()) != null) {
-                if("#".equals(inputLine)){
-                    System.out.println("Connection closed");
-                    break;
-                }
-                validator = protocol.readInput(inputLine);
-                if(!validator){
-                    System.out.println("A problem occurred on the keyword: " +  inputLine);
-                    break;
-                };
-            }
-            System.out.println("Ricevuto capo");
-            if(validator){
+            if(receiveMessage()){
                 boolean outcome = protocol.execute();
                 sendMessage(protocol.responseBuilder(outcome));
                 protocol.reset();
@@ -54,6 +39,23 @@ public class RequestHandler extends Thread {
         } catch (IOException e) {
             System.err.println(e);
         }
+    }
+
+    private boolean receiveMessage() throws IOException{
+        String inputLine;
+        boolean validator = false;
+        while ((inputLine = in.readLine()) != null) {
+            if(";".equals(inputLine)){
+                System.out.println("Connection closed");
+                return true;
+            }
+            validator = protocol.readInput(inputLine);
+            if(!validator){
+                System.out.println("A problem occurred on the keyword: " +  inputLine);
+                return false;
+            };
+        }
+        return false;
     }
 
     private void sendMessage(String message){

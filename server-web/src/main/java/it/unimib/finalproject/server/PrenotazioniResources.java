@@ -28,6 +28,7 @@ public class PrenotazioniResources {
     public Response createPrenotazione(@PathParam("id") int id, String body){
         String token = UUID.randomUUID().toString();
         Prenotazione pre = Prenotazione.buildFromString(body);
+        System.out.println(pre.toString());
         if(pre == null || pre.getPosti().isEmpty()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -44,7 +45,11 @@ public class PrenotazioniResources {
                     prtcl.update(token, "proiezione:" + pro.getId(), pro.toString());
                     prtcl.unlock(token, "proiezione:" + pre.getProiezioneID());
                     try {
-                        return Response.created(new URI(pre.getID())).build();
+                        System.out.println("AAAA");
+                        
+                        URI uri = new URI("prenotazione/" + pre.getID());
+                        System.out.println(uri.toString()); 
+                        return Response.created(uri).build();
                     } catch (URISyntaxException e) {
                         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
                     }

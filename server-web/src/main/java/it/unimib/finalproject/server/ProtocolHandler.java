@@ -10,8 +10,8 @@ public class ProtocolHandler {
     
     public boolean create(String key, String value){
         String command = "CREATE+";
-        command += key + "+/+" + value;
-        command += "+;+#";
+        command += key + "+" + value;
+        command += "+;";
         String response = executeCommand(command);
         if(response != null){
             if(response.contains("OK"))
@@ -23,7 +23,7 @@ public class ProtocolHandler {
     public String read(String key) {
         String command = "READ+";
         command += key;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         if (response != null) {
             if(response.contains("OK")){
@@ -44,8 +44,8 @@ public class ProtocolHandler {
             command += owner + "+";
         }
        command += "UPDATE+";
-       command += key + "+/+" + value;
-       command += "+;+#";
+       command += key + "+" + value;
+       command += "+;";
        String response = executeCommand(command);
        if(response != null){
            if(response.contains("OK"))
@@ -65,7 +65,7 @@ public class ProtocolHandler {
         }
         command = "DELETE+";
         command += key;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         if (response != null) {
             if(response.contains("OK"))
@@ -77,7 +77,7 @@ public class ProtocolHandler {
     public boolean exists(String key) {
         String command = "EXISTS+";
         command += key;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         if (response != null) {
             if(response.contains("OK"))
@@ -89,7 +89,7 @@ public class ProtocolHandler {
     public String key_filter(String filter){
         String command = "KEY_FILTER+";
         command += filter;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         if (response != null) {
             if (response.contains("OK")) {
@@ -103,7 +103,7 @@ public class ProtocolHandler {
     public boolean lock(String owner, String key){
         String command = owner + "+LOCK+";
         command += key;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         if (response != null) {
             if (response.contains("OK")) {
@@ -117,7 +117,7 @@ public class ProtocolHandler {
         String key = String.join("--", keys);
         String command = owner + "+LOCK+";
         command += key;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         System.out.println("Lock: " + response);
         
@@ -132,7 +132,7 @@ public class ProtocolHandler {
     public boolean unlock(String owner, String key){
         String command = owner + "+UNLOCK+";
         command += key;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         if (response != null) {
             if (response.contains("OK")) {
@@ -146,7 +146,7 @@ public class ProtocolHandler {
         String key = String.join("--", keys);
         String command = owner + "+UNLOCK+";
         command += key;
-        command += "+;+#";
+        command += "+;";
         String response = executeCommand(command);
         if (response != null) {
             if (response.contains("OK")) {

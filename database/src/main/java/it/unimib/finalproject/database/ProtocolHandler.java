@@ -3,11 +3,11 @@ package it.unimib.finalproject.database;
 public class ProtocolHandler {
     private final int START = 1;
     private final int KEY = 2;
-    private final int END_TAG = 3;
-    private final int KEY_VALUE = 4;
-    private final int SEPARATOR = 5;
-    private final int VALUE = 6;
-    private final int READY = 7;
+    //private final int END_TAG = 3;
+    private final int KEY_VALUE = 3;
+    //private final int SEPARATOR = 4;
+    private final int VALUE = 4;
+    private final int READY = 5;
 
     private int state;
 
@@ -33,23 +33,15 @@ public class ProtocolHandler {
             break;
             case KEY:
                 this.key = input;
-                this.state = END_TAG;
-            break;
-            case END_TAG:
-                if (input.equals(";")) this.state = READY;
-                else success = false;
+                this.state = READY;
             break;
             case KEY_VALUE:
                 this.key = input;
-                this.state = SEPARATOR;
-            break;
-            case SEPARATOR:
-                if(input.equals("/")) this.state = VALUE;
-                else success = false;
+                this.state = VALUE;
             break;
             case VALUE:
                 this.value = input;
-                this.state = END_TAG;
+                this.state = READY;
             break;
         
             default:
@@ -112,7 +104,7 @@ public class ProtocolHandler {
                 success = db.unlock(owner, key);
             break;
             default:
-                System.out.println("Not a valid command: find God");
+                System.out.println("Not a valid command");
                 success = false;
             break;
         }
@@ -123,8 +115,9 @@ public class ProtocolHandler {
     String getOutput(){
         if(this.state == READY){
             return output;
-        }else
+        }else{
             return null;
+        }
     }
 
     void reset(){
@@ -143,10 +136,9 @@ public class ProtocolHandler {
             response.append("FAILED ");
         }
         if(command.equals("READ") || command.equals("EXISTS") || command.equals("KEY_FILTER")){
-            //control null
             response.append(getOutput() + " ");
         }
-        response.append("#");
+        response.append(";");
         return response.toString();
 
     }

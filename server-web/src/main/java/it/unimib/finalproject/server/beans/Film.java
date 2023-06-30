@@ -40,9 +40,9 @@ public class Film implements Serializable {
     public static List<Film> fromStringToObjects(String list){
         int end;
         ArrayList<Film> objList = new ArrayList<Film>();
-        while((end = list.indexOf(";")) != -1){
+        while((end = list.indexOf("--")) != -1){
             String obj = list.substring(0, end);
-            list = list.substring(end +1);
+            list = list.substring(end + 2);
             int divider = obj.indexOf("/");
             System.out.println(obj.substring(0, divider));
             obj = obj.substring(divider +1);

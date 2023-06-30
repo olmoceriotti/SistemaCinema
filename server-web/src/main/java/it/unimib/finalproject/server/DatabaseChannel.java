@@ -41,7 +41,7 @@ public class DatabaseChannel {
         StringBuilder sb = new StringBuilder();
         String inputLine = "";
         while ((inputLine = in.readLine()) != null) {
-            if ("#".equals(inputLine)) {
+            if (";".equals(inputLine)) {
                 break;
             }
             sb.append(inputLine);

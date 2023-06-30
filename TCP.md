@@ -1,25 +1,38 @@
 # Progetto Sistemi Distribuiti 2022-2023 - TCP
 
-PROTOCOLLO DATABASE
+## PROTOCOLLO DATABASE
 
-Il protocollo implmentato per la comunicazione tra Server e DB si compone di 8 comandi che corrispondo a: le 4 operazioni di base CRUD, due operazioni ausiliarie e due operazioni per gestire la concorrenza. 
-Il database è stato implementato nel pieno rispetto delle istruzioni fornite: i dati sono salvati in memory sotto forma di chiave-valore utilizzando una HashMap\<String, String> e supporta l'esecuzione concorrente di più Thread. 
-La gestione della concorrenza adotta un approccio particolare. Sono forniti due comandi, LOCK e UNLOCK, che permettono di richiedere il LOCK su una particolare risorsa utilizzando la sua chiave. In questo modo non solo le operazioni che potrebbero creare problemi se eseguite in maniera concorrente risultano protette e stabili, ma si lascia anche la possibilità all'utilizzatore del db di utilizzare il comando LOCK per combinare più operazioni differenti e renderle Thread Safe.
+### Descrizione
 
-Il protocollo è così specificato:
-1. CREATE KEY / VALUE ;
-  Il comando per creare una risorsa si compone semplicemente della coppia chiave-valore come argomenti, non è possibile creare due oggetti con la stessa chiave.
-1. READ KEY ;
-  Il comando per la lettura di un valore richiede semplicemente la chiave del valore che si vuole leggere come argomento.
-1. [TOKEN] UPDATE KEY / VALUE ;
-  Il comando per la modifica dei dati già inseriti richiede un token per verificare che la richiesta di update provenga da chi attualemente possiede il lock sulla risorsa.
-1. [TOKEN] DELETE KEY ;
-  Il comando per la cancellazione dei dati richiede anch'esso il token associato al LOCK.
-1. EXISTS KEY ;
-  Il comando exists invia risposta positivia  nel caso esista una valore del database identificato dalla chiave passata come parametro.
-1. KEY\_FILTER FILTER;
-  Il comando in questione restituisce una lista comprendente tutti i valori la cui chiave contiene la stringa passata nel parametro filter.
-1. TOKEN LOCK KEY[ | KEYS]
-  Il comando lock richiede un token da associare al lock che verrà creato sulla chiave (o chiavi) che vengono passate come argomento. Nel caso di chiavi multiple esse devono essere inviate in un unica stringa separate dal caratter "-"
-1. TOKEN UNLOCK KEY[|KEYS] 
-  == LOCK
+Il protocollo di comunicazione con il database si basa su messaggi in formato stringa sia nelle richieste che nelle risposte. Nelle richieste è possibile specificare 8 comandi differenti che rappresentano: 4 operazioni CRUD, 2 operazioni per la composizione di operazioni in maniera concorrente e 2 operazioni di supporto. Le risposte hanno un formato simile per tutte le operazioni.
+
+### Lista e formato comandi
+
+1. `CREATE <KEY> <VALUE> ;`
+2. `READ <KEY> ;`
+3. `[TOKEN] UPDATE <KEY> <VALUE> ;`
+4. `[TOKEN] DELETE <KEY> ;`
+5. `EXISTS <KEY> ;`
+6. `KEY_FILTER <FILTER> ;`
+7. `<TOKEN> LOCK <KEYS> ;`
+8. `<TOKEN> UNLOCK <KEYS> ;`
+
+### Interpretazione dell'input
+
+Per interpretare correttamente i comandi inviati dall'utente è previsto l'utilizzo di una macchina a stati finiti i cui stati sono rappresentati da interi. La macchina è la seguente: 
+
+### Spiegazione operazioni
+
+1. L'operazione `CREATE` si occupa di creare un entry nel database associando `<KEY>` e `<VALUE>` come coppia chiave-valore. Fallisce quando si prova a creare una coppia utilizzando una chiave già esistente. È implementata da un metodo `synchronized` per evitare la creazione simultanea di più valori con la stessa chiave.
+2. L'operazione `READ` permette la lettura del valore data una chiave `<KEY>`. La richiesta fallisce quando non è presente entry con la chiave richiesta.
+3. L'operazione `UPDATE` si occupa di aggiornare il valore di una entry con chiave `<KEY>` utilizzando il valore `<VALUE>`. L'operazione fallisce nel momento in cui la chiave non corrisponde a nessuna entry. Il comando riceve in input un `TOKEN` opzionale. Il token è una qualsiasi stringa. Il token è utilizzato per la composizione di operazioni esplicita permessa dalle operazioni `LOCK` e `UNLOCK`. Nel caso in cui non sia prevista composizione il comando chiama internamente `LOCK` per rendere l'esecuzione thread-safe. Nel caso in cui il `TOKEN`  non sia stato esplicitamente dichiarato, il metodo assegna un `TOKEN` token univoco temporaneo all'esecuzione. Ulteriori scenari di fallimento comportano la presenza di un `LOCK`  già precedentemente richiesto con un `TOKEN`  differente sulla `<KEY>` attuale. 
+4. L'operazione `DELETE` si occupa di cancellare il valore di una entry con chiave `<KEY>`. L'operazione fallisce nel momento in cui la chiave non corrisponde a nessuna entry. Il comando riceve in input un `TOKEN` opzionale. Il token è una qualsiasi stringa. Il token è utilizzato per la composizione di operazioni esplicita permessa dalle operazioni `LOCK` e `UNLOCK`. Nel caso in cui non sia prevista composizione esplicita il comando chiama internamente `LOCK` per rendere l'esecuzione thread-safe. Nel caso in cui il `TOKEN`  non sia stato esplicitamente dichiarato, il metodo assegna un `TOKEN` token univoco temporaneo all'esecuzione. Ulteriori scenari di fallimento comportano la presenza di un `LOCK`  già precedentemente richiesto con un `TOKEN`  differente sulla `<KEY>` attuale.
+5. L'operazione `EXISTS` permette di controllare l'esistenza di una entry data la sua chiave. Non sono previsti scenari di fallimento. La risposta prevede un body contenente i valori `TRUE` o `FALSE` a seconda della presenza della entry.
+6. L'operazione `KEY_FILTER` permette di restituire una lista di valori la cui chiave contiene la stringa `<FILTER>`. Il body della risposta prevede il ritorno dei valori separati dal carattere `--`,  se nessuna chiave contiene il `<FILTER>` il body di ritorno sarà vuoto. Non sono previsti scenari di fallimento.
+7. L'operazione `LOCK` permette di dichiarare una lista di chiavi `<KEYS>`, espressa come una stringa con i singoli valori separati da `--`, sulla quale solamente i comandi (che lo richiedono) che passano `<TOKEN>` possono essere eseguiti. L'operazione permette allo sviluppatore di dichiare un'area "critica" sulla quale solamente un'insieme di metodi autorizzati può agire. L'operazione restituisce esito positivo se le chiavi risultano libere, altrimenti avviene un fallimento. È implementato da metodo `synchronized` per evitare che il `LOCK` venga acquisito contemporaneamente da più agenti.
+8. L'operazione `UNLOCK` permette di liberare una lista di chiavi `<KEYS>`, espressa come una stringa con i singoli valori separati da `--`, da un `<TOKEN>` precedentemente assegnato. L'operazione restituisce esito positivo se le chiavi erano presenti nella tabella di blocco sotto la voce `<TOKEN>`, altrimenti avviene un fallimento. È implementato da metodo `synchronized` per evitare che più agenti eseguano `UNLOCK` contemporaneamente.
+
+### Formato risposta
+Il formato delle risposte è uguale per tutti i comandi ed è il seguente: `<OK> | <FAILED> [BODY] ;`
+`<OK>` e `<FAILED>` sono mutualmente esclusivi e chiaramente rappresentano la riuscita del comando. Il `[BODY]` è previsto solo dalle operazioni `READ`, `EXISTS` e `KEY_FILTER`.
+

@@ -31,8 +31,12 @@ async function createProiezione(obj){
     let div = document.createElement("div");
     let resFilm = await fetch('http://localhost:8080/film/'  + obj["film id"]);
     let film = await resFilm.json();
+    div.addEventListener("click", () => {
+        generaPaginaInfo(film, null);
+    });
     div.textContent = film.nome;
     div.classList.add("film");
+    div.classList.add("click");
     prenotazione.appendChild(div);
 
     const divData = document.createElement("div");
@@ -227,18 +231,21 @@ async function onSubmit(id){
     }
 
     if(data.numeroPosti != "0"){
-        try{
-            const response = await fetch("http://localhost:8080/prenotazione/", options);
-            const json = await response.json();
-            inviaConfermaPrenotazione(json);
-        }catch(error){
+        fetch("http://localhost:8080/prenotazione/", options).then(function (response) {
+            if (response.status === 201) {
+                let locationHeader = response.headers.get("Location");
+                locationHeader = locationHeader.replace("http://localhost:8080/prenotazione/", "");
+                inviaConfermaPrenotazione(locationHeader);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
             showAvviso("Qualcosa è andato storto!")
-        }
-        
+        });     
     }
 }
 
-function inviaConfermaPrenotazione(json){
+function inviaConfermaPrenotazione(UUID){
     const section = document.querySelector("section");
     section.innerHTML = null;
     
@@ -251,11 +258,12 @@ function inviaConfermaPrenotazione(json){
 
     const id = document.createElement("p");
     id.classList.add("id");
-    id.textContent = "L'ID della tua prenotazione è " + json;
+    UUID = UUID.replace("http://localhost:8080/prenotazione/", "");
+    id.textContent = "L'ID della tua prenotazione è " + UUID;
     conferma.appendChild(id);
 
     const qr = document.createElement("img");
-    const qrPath = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + json;
+    const qrPath = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + UUID;
     qr.src = qrPath;
     conferma.appendChild(qr);
 
@@ -263,7 +271,7 @@ function inviaConfermaPrenotazione(json){
 
     const button = document.createElement("button");
     button.addEventListener("click", () =>{
-        copiatesto(json);
+        copiatesto(UUID);
     } );
     button.textContent = "Copia ID";
     button.classList.add("copia");
@@ -272,7 +280,7 @@ function inviaConfermaPrenotazione(json){
     const button1 = document.createElement("button");
     button1.textContent = "Salva QR CODE";
     button1.addEventListener("click", () => {
-        salvaQR(json);
+        salvaQR(UUID);
     })
     button1.classList.add("copia");
     div.appendChild(button1);

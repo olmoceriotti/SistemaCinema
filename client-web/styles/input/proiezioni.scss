@@ -68,6 +68,14 @@ h3 {
     }
 }
 
+.click{
+    cursor: pointer;
+    &:hover{
+        color: darken($text, 20)
+    }
+    
+}
+
 .film {
     flex-basis: 25%;
     overflow: hidden;

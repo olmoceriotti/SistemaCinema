@@ -64,6 +64,13 @@ h3 {
   height: 4rem;
 }
 
+.click {
+  cursor: pointer;
+}
+.click:hover {
+  color: #cccccc;
+}
+
 .film {
   flex-basis: 25%;
   overflow: hidden;
@@ -174,7 +181,7 @@ h3 {
   font-size: 1rem;
   font-size: 2rem;
   color: #fff;
-  margin: 0 0 3rem;
+  margin: 0 0 2rem;
 }
 .conferma button {
   font-size: 1.5rem;
@@ -186,7 +193,7 @@ h3 {
   font-weight: 400;
   font-size: 1rem;
   text-align: center;
-  margin: 2rem 3rem;
+  margin: 2rem 2rem;
 }
 .conferma button:first-child {
   color: #fff;
